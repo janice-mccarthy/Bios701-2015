@@ -1,0 +1,52 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage{marginnote} % Required for margin notes
+\usepackage{wallpaper} % Required to set each page to have a background
+\usepackage{lastpage} % Required to print the total number of pages
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+
+
+\title{Introduction to Probability Theory - Lecture 1}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Why do we study probability?}
+Probability is the mathematical basis of the science of statistics. In particular, there are a couple of probability theorems that form the basis for much statistical inference: The Law of Large Numbers (LLN) and the Central Limit Theorem.
+
+First, let's state an informal version of the LLN:
+
+\begin{thm}
+Let $X_1,...,X_n$ be independent samples from a population with mean $\mu$ (unknown) and define:
+$$S_n = \frac{X_1+...+X_n}n$$.
+Then as $n\rightarrow\infty, S_n\rightarrow\mu$.
+\end{thm}
+Question: in what sense does $S_n\rightarrow\mu$? What does this mean? What should it mean (intuitively)? 
+
+Now, to really state the LLN, we need to be a bit more precise. 
+\begin{thm}
+Let $X_1,...,X_n$ be independent and identically distributed random variables with mean $\mu$ and variance $\sigma^2<\infty$. Then as $n\rightarrow\infty$, $S_n\mu:$
+$$S_n=\frac{X_1+...+X_n}{n}.$$
+\end{thm}
+\end{document}
