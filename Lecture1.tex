@@ -7,15 +7,13 @@
 \usepackage{epsfig}
 \usepackage{pst-grad} % For gradients
 \usepackage{pst-plot} % For axes
-\usepackage{marginnote} % Required for margin notes
-\usepackage{wallpaper} % Required to set each page to have a background
-\usepackage{lastpage} % Required to print the total number of pages
 \usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
 \usepackage{amsmath} % Required for equation customization
 \usepackage{amssymb} % Required to include mathematical symbols
 \usepackage{xcolor} % Required to specify colors by name
 \usepackage{amsthm}
 \usepackage{float}
+%\usepackage{wasysym}
 
 
 \setlength{\parindent}{0cm} % Remove paragraph indentation
@@ -33,9 +31,9 @@
 \begin{document}
 \maketitle
 \section{Why do we study probability?}
-Probability is the mathematical basis of the science of statistics. In particular, there are a couple of probability theorems that form the basis for much statistical inference: The Law of Large Numbers (LLN) and the Central Limit Theorem.
+Probability is the mathematical basis of the science of statistics. In particular, there are a couple of probability theorems that form the basis for much statistical inference: The Law of Large Numbers (LLN) and the Central Limit Theorem.\\
 
-First, let's state an informal version of the LLN:
+First, let's state an informal version of the LLN:\\
 
 \begin{thm}
 Let $X_1,...,X_n$ be independent samples from a population with mean $\mu$ (unknown) and define:
@@ -44,9 +42,72 @@ Then as $n\rightarrow\infty, S_n\rightarrow\mu$.
 \end{thm}
 Question: in what sense does $S_n\rightarrow\mu$? What does this mean? What should it mean (intuitively)? 
 
-Now, to really state the LLN, we need to be a bit more precise. 
+Now, to really state the LLN, we need to be a bit more precise. \\
 \begin{thm}
-Let $X_1,...,X_n$ be independent and identically distributed random variables with mean $\mu$ and variance $\sigma^2<\infty$. Then as $n\rightarrow\infty$, $S_n\mu:$
+Let $X_1,...,X_n$ be independent and identically distributed random variables with mean $\mu$ and variance $\sigma^2<\infty$. Define:
+
 $$S_n=\frac{X_1+...+X_n}{n}.$$
+
+Then as $n\rightarrow\infty$, 
+
+$$S_n\xrightarrow[a.s.]{p}\mu:$$
 \end{thm}
+The reason we state things formally is because formal statements are needed to prove theorems. Theorems are necessary to ensure we are not coming to erroneous conclusions (for example, the LLN stated above is for \emph{independent and identically distributed} random variables. We cannot come to the same conclusion if our variables are correlated or have different distributions (though there are extension theorems for those cases).
+
+Now, lets have a quick look at a formal statement of the CLT:
+
+\begin{thm}
+Let $X_1,...,X_n$ be independent and identically distributed random variables with mean $\mu$ and variance $\sigma^2<\infty$. Define:
+
+$$S_n=\frac{X_1+...+X_n}{n}.$$
+
+Then as $n\rightarrow\infty$, 
+
+$$\sqrt{n}\left(S_n-\mu\right)\xrightarrow{d} N(0,\sigma^2)$$
+\end{thm}
+
+In English, this means that the distribution of the fluctuations of the sample mean from the population mean $\mu$ approaches a normal distribution as $n$ gets large. The variance of the limiting normal distribution is the population variance.\\
+
+Much of what we learn in this class will build the machinery to prove and fully understand these results. We won't cover the convergence part (that's in 704), but we will study random variables, distributions, independence, etc.\\
+
+\section{What is Probability? - Naive Approach}
+Now that we have (hopefully) agreed that probability is important to study, what exactly is it? We will begin with a 'naive' approach that is intuitive, but limited and then use what we have learned about the intuitive notion to define a theory of probability that is both more precise and more general.\\
+
+We are going to need some terminology, so let's get that out of the way. When we talk about the probability of something happening, we usually mean as a result of some other thing happening. In other words, what is the probability of a coin landing heads up when tossed?\\
+
+We call the coin toss an \emph{experiment} and the result an \emph{outcome}. An \emph{experiment} is some process of obtaining an observation of some phenomenon. A \emph{trial} is one iteration of an experiment. If our experiment is tossing a coin once, then tossing $10$ times would be $10$ trials.\\
+
+Note: We could equally well define an experiment as tossing a coin 10 times. Then tossing it 100 times is ten trials. How we define the experiment depends on what we are interested in studying. \\
+
+Finally, the \emph{set} of all outcomes is called the \emph{sample space}. This leads us on a slight detour - we'll need a tiny bit of set theory to proceed.
+
+\subsection{A Detour via Set Theory}
+
+A \emph{set} is simply a collection of objects. An object can be pretty much anything you can think of:
+
+\begin{itemize}
+\item $\left\{1,2,3,7,-5,-12\right\}$ - just a bunch of numbers
+\item $\left\{2,4,6,8,...\right\}$ - even numbers
+\item $\left\{\textrm{Dash, Bast, Tiberius (Gracchus), Chestnut}\right\}$ - my pets
+\item $\left\{x:x>4\textrm{ and } x\in\mathbb{R}\right\}$ - all real numbers greater than 4
+\end{itemize}
+
+There are a few special sets:
+
+\begin{itemize}
+\item $\varnothing$ - the empty set. It's empty :)
+\item $\Omega$ - the universal set. It contains \emph{everything}. In probability, the universal set is the sample space, usually denoted $S$.
+\end{itemize}
+\subsubsection{Subsets}
+A subset is a set whose elements are \emph{all} contained in another set.\\\\
+Example: If $A=\left\{1,2,3,4,5\right\}$, $B=\left\{1,2\right\}$ and $C=\left\{5,2,3\right\}$ and $D=\left\{5\right\}$, then $B,C$ and $D$ are all subsets of $A$ and $D$ is also a subset of $C$.\\
+
+Formally: If $A$ and $B$ are sets, $B$ is a \emph{subset} of $A$ $\iff$ all elements of $B$ are also elements of $A$. If $B$ is a subset of $A$, we write:
+$$B\subset A \textrm{ or } B\subseteq A$$ 
+Some set facts:
+\begin{itemize}
+\item If $A$ is a set, $\varnothing\subset A$
+\item If $A$ is a set $A\subset A$
+\item $A$ and $B$ are subsets of each other $\iff$ $A = B$.\\
+\end{itemize}
 \end{document}
