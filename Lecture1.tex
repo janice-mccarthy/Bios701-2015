@@ -13,7 +13,9 @@
 \usepackage{xcolor} % Required to specify colors by name
 \usepackage{amsthm}
 \usepackage{float}
-%\usepackage{wasysym}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds}
+\usepackage{wasysym}
 
 
 \setlength{\parindent}{0cm} % Remove paragraph indentation
@@ -95,7 +97,7 @@ A \emph{set} is simply a collection of objects. An object can be pretty much any
 There are a few special sets:
 
 \begin{itemize}
-\item $\varnothing$ - the empty set. It's empty :)
+\item $\varnothing$ - the empty set. It's empty \smiley
 \item $\Omega$ - the universal set. It contains \emph{everything}. In probability, the universal set is the sample space, usually denoted $S$.
 \end{itemize}
 \subsubsection{Subsets}
@@ -108,6 +110,146 @@ Some set facts:
 \begin{itemize}
 \item If $A$ is a set, $\varnothing\subset A$
 \item If $A$ is a set $A\subset A$
-\item $A$ and $B$ are subsets of each other $\iff$ $A = B$.\\
+\item  $A = B \iff A$ and $B$ are subsets of each other.\\
 \end{itemize}
+\subsubsection{Set Operations}
+Sets are mathematical objects, and mathematical objects usually come with some 'operations' with which one may manipulate them. The following are some set operations (for $A$ and $B$ sets):
+
+\begin{enumerate}
+\item Union - denoted $A\cup B$. This is the set of all elements that are in $A$, together with all the elements that are in $B$.
+\item Intersection - denoted $A\cap B$ This is the set of all elements that are in $A$ and also in $B$.
+\item Complement - $A^c$ is the set of all elements of the universal set that are not contained in $A$.
+\end{enumerate}
+\def\firstcircle{(0,0) circle (1.5cm)}
+\def\secondcircle{(0:2cm) circle (1.5cm)}
+\def\bigcircle{(0:.5cm) circle (2.5 cm)}
+
+% Now we can draw the sets:
+\begin{tikzpicture}
+%    \draw \firstcircle node[below] {$A$};
+%    \draw \secondcircle node  {$B$};
+%    \draw \thirdcircle node [below] {$C$};
+
+    % We want to highlight the intersection of the first and the
+    % second circle:
+       \begin{scope}shift={(15cm,0cm)}
+              \draw \firstcircle node[below] {$A$};
+              \draw \secondcircle node  {$B$};
+              \clip \firstcircle;
+              \fill[red] \secondcircle;
+              \draw \firstcircle node[below] {$A$};
+              \draw \secondcircle node  {$B$};
+              \draw (1,-2) node {bf{\huge{$A\cap B$}}};
+                 \draw (1,-2) node {textcolor[black]{{\huge{$A\cap B$}}}};
+          \end{scope}
+       \draw (1,-2) node {$A\cap B$};
+
+  \begin{scope}[shift={(-6cm,0cm)}]
+          \begin{scope}[even odd rule]% first circle without the second
+              \clip \secondcircle (-3,-3) rectangle (3,3);
+          \fill[yellow] \firstcircle;
+          \end{scope}
+     % second circle without the first
+               \fill[yellow] \secondcircle;
+          \draw \firstcircle node {$A$};
+          \draw \secondcircle node {$B$};
+          \draw (1,-2) node {$A\cup B$};
+      \end{scope}
+      
+    \begin{scope}[shift={(7cm,0cm)}]
+             \begin{scope}[even odd rule]% first circle without the second
+                 \clip  \firstcircle (-3,-3) rectangle (3,3);
+             \fill[yellow] \bigcircle;
+              
+                          \draw \bigcircle node[below] {$S$};
+                      
+             \end{scope}
+              \draw \firstcircle node {$A$};   
+             \draw (1,-3) node {$A^c$};
+             \draw (1,2) node {$S$};
+        % second circle without the first
+            
+            
+         \end{scope}
+   
+\end{tikzpicture}
+\subsubsection{De Morgan's Laws}
+De Morgan's laws are used often in probability proofs (because $P(A) = 1-P(A^c)$.\\
+
+Suppose we would like to write $(A\cup B)^c$ in terms of an intersection. We know that  $(A\cup B)$ is everything in $A$ together with everything in $B$. That means $(A\cup B)^c$ is everything that is \emph{not} in $A$ \emph{and} everything that is \emph{not} in $B$. Mathematically, that means:
+$$\left(A\cup B\right)^c = A^c\cap B^c$$
+
+The analogous statement for intersections to unions is:
+$$\left(A\cap B\right)^c = A^c\cup B^c$$
+
+The result also holds for \emph{finite} unions and intersections, i.e. for $A_1,...,A_n$ sets :
+$$\left(\bigcap_{i=1}^n A_i\right)^c = \bigcup_{i=1}^n A_i^c \textrm{ and } \left(\bigcup_{i=1}^n A_i\right)^c = \bigcap_{i=1}^n A_i^c$$
+\subsubsection{Partitions}
+We'll also make use of partitions quite a bit - especially with regards to something called the Law of Total Probability.\\
+A \emph{partition} of a set $A$ is a collection $A_1,...,A_n$ of subsets of $A$ such that 
+$$\bigcup_{i=1}^n A_i = A$$
+and
+$$A_i\cap A_j = \varnothing \textrm{ for } i\neq j$$
+A partition of a set $A$ could look something like this:\\\\\\
+\begin{tikzpicture}
+%    \draw \firstcircle node[below] {$A$};
+%    \draw \secondcircle node  {$B$};
+%    \draw \thirdcircle node [below] {$C$};
+
+    % We want to highlight the intersection of the first and the
+    % second circle:
+       \begin{scope}shift={(15cm,0cm)}
+            
+              \draw[clip] (0,0) circle (3cm);
+              \foreach \a in {20,60,120,180,230,250,310}
+              {
+              \draw (-1,.5) -- (\a:4cm);
+              }
+          \end{scope}
+       \draw (1,-2) node {$A$};
+\end{tikzpicture}
+\subsubsection{Cardinality}
+A property of sets that we are often interested in is their size. For finite sets, this is easy - the size or \emph{cardinality} of a finite set is the number of elements in that set. We denote the cardinality of a set $A$ by $|A|$.\\
+ Things get a little trickier when we deal with infinite sets. Infinite sets may be \emph{countably infinite} or \emph{countable} or \emph{uncountable infinite} or \emph{uncountable}. As you might guess, a countable set is "smaller" than an uncountable set.\\
+An infinite set is said to be \emph{countable} if its elements can be put in 1-1 correspondence with the set of natural numbers $\left\{0,1,2,3,...\right\}$. \\\\
+Let's do this for the integers. We need take each of the elements of $\left\{...-3,-2,-1,0,1,2,3,...\right\}$ and assign it to one (and \emph{only} one) element of $\left\{0,1,2,3,...\right\}$. We do the following:
+\begin{itemize}
+\item Send $0 \in \left\{...-3,-2,-1,0,1,2,3,...\right\}$ to $0 \in \left\{0,1,2,3,...\right\}$
+\item Send the negative numbers $\left\{-1,-2,-3,...\right\}$ to the odd numbers $\left\{1,3,5,...\right\}$ and the positive numbers $\left\{1,2,3,...\right\}$ to the even numbers $\left\{2,4,6,...\right\}$. And we are done!
+\end{itemize}
+So, we see th integers are countable. Sometimes, I may say a set is countable if it can be put in 1-1 correspondence with the integers. This is true - because any set that is in 1-1 correspondence with the natural numbers can be put in 1-1 correspondence with the integers, and vice-versa.\\
+Lastly, we give an example of a set that is uncountable:
+$$\left\{x\in\mathbb{R}:x>4\right\}$$
+In English, this is read "$x$ in $\mathbb{R}$ (the real numbers), such that (the colon ':' is read as 'such that') $x$ is greater than $4$." Lest we think a set of real numbers must be unbounded to be uncountable, we also note that the set:
+$$\left\{x\in \mathbb{R}: 0<x<1\right\}$$
+is also uncountable. (Proofs of these results are beyond our scope - but any discrete math textbook will have one - or just look at Wikipedia.)
+
+\subsection{More Definitions - Naive Probability}
+\begin{defn}
+The \emph{sample space} $S$ is the set of all possible outcomes of an experiment. Any subset $A\subset S$ is called an \emph{event}. We say that an even $A$ \emph{occurred} if the actual outcome is an element of $A$.
+\end{defn}
+\begin{example}
+Consider a die roll and the following events:
+$$A = \left\{1,3,5\right\}, B=\left\{6\right\}\textrm{ and } C=\left\{3\right\}$$
+Suppose we roll the die and the result is a $3$. Then:
+\begin{enumerate}
+\item $A$ occurred
+\item $C$ occurred
+\item $A\cap C$ occurred
+\item $B$ did not occur
+\item $A\cup B$ occurred 
+\end{enumerate}
+\end{example}
+Now, we are finally ready to set our naive definition of probability:
+\begin{defn}
+Let $S$ be a finite sample space and let $A$ be a subset of $S$. We define the function
+$$P:S\rightarrow \left[ 0,1\right]$$
+$$P(A) = \frac{|A|}{|S|}$$
+where $|A|$ denotes the cardinality of the set $A$.
+\end{defn}
+Note: this definition has a couple of serious limitations:
+\begin{enumerate}
+\item It only works for finite sample spaces
+\item It assumes that all outcomes are \emph{equally likely}.
+\end{enumerate}
 \end{document}

@@ -1,0 +1,57 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds}
+\usepackage{wasysym}
+
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+
+
+\title{Introduction to Probability Theory - Lecture 2}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Counting}
+Now that we have a starting definition of probability in terms of the cardinality of sets, we need to learn to count outcomes (without explicitly enumerating them!)
+\subsection{Tools for Counting}
+Our primary tool for counting is something called the 'multiplication rule'. Before we state it, lets look at a couple of examples.
+\begin{example}
+Consider an experiment where we roll two dice - one white, one blue (I want them to be \emph{distinguishable} - more on that later). How many possible outcomes are there? \\\\
+
+\end{example}
+\begin{example}
+Suppose we have $2$ treatments and $3$ patients (not realistic, but we want the number small so we can draw a picture). We will randomly assign each patient to a treatment, and the treatment will either work or it won't (in other words, consider effectiveness as a binary outcome). How many possible outcomes are there?
+\end{example}
+Now we are ready to state the multiplication rule: In a compound experiment, if one experiment has $m$ outcomes and the other has $n$ outcomes, the total number of outcomes is $m\cdot n$. In general, if we have a compound experiment made up of $k$ experiments, there are 
+$$n_1\cdot n_2\cdot...\cdot n_k$$
+possible outcomes. Similarly, if an experiment has $n$ possible outcomes and we perform $r$ trials, there are $n^r$ possible outcomes in total.
+\subsection{Sampling with and without Replacement}
+Many probability problems can be cast as 'sampling'. I.e., we have an urn of colored balls and select some of them by some procedure. So, suppose we have such and urn, say with $k$ balls, and for now, all of \emph{different} colors. We decide to take out $k\leq n$ colored balls and record the result. There are a few ways to do this.
+
+Suppose we take out one ball, record its color and the \emph{replace} it to the urn. Then we take a second ball, record the color, replace, etc. This is called, rather appropriately, sampling \emph{with replacement}.
+
+On the other hand, we could take out a ball, record its color, and then put it aside and select the next ball. This is called sampling \emph{without replacement}. 
+
+The number of outcomes of these two experiments is different. 
+\end{document}
