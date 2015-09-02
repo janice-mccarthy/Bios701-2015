@@ -1,0 +1,15 @@
+      child {
+            node[below](1b) {1}
+            child {
+                  node[below](White){White}
+                  foreach \a in {1,2,3,4,5,6}
+                  {
+                     child {
+                           node[below] (\a:) {\a:}
+                           edge from parent
+                     }
+                  }
+            edge from parent
+            } 
+      edge from parent
+      }  

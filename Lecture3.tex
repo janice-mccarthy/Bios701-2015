@@ -1,0 +1,120 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 3}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Counting Continued}
+We will wrap up our discussion of counting by stating and proving a couple of combinatorial identities and walking through the Bose-Einstein problem presented in the book.
+\subsection{Combinatorial Identities}
+\begin{prop}
+$${n\choose {k}} = {n\choose{n-k}}$$
+\end{prop}
+\begin{proof}
+$${n\choose{n-k}} = \frac{n!}{(n-(n-k))!(n-k)!} = \frac{n!}{k!(n-k)!} = {n\choose{k}}$$
+\end{proof}
+\begin{prop}
+$$n{{n-1}\choose{k-1}} = k{n\choose{n-k}}$$
+\end{prop}
+\begin{proof}
+$$n{{n-1}\choose{k-1}} = n\frac{(n-1)!}{(n-1-k+1)!(k-1)!} = n\frac{(n-1)!}{(n-k)!(k-1)!} $$
+$$= \frac{n!}{(n-k)!(k-1)!} = k\frac{n!}{(n-k)!k(k-1)!}= k{n\choose{k}}$$
+\end{proof}
+\begin{prop}{Vandermonde's identity}
+$${{m+n}\choose{k}} = \sum_{j=0}^k{m\choose{j}}{n\choose{k-j}}$$
+\end{prop}
+The book gives a 'story' proof (also known as a combinatorial proof) of this identity. The combinatorial proof is as follows:\\
+
+Suppose we have a group of $N=m+n$ people, $m$ of which are women, $n$ of which are men. How many different subcommittees can be formed of $k$ people?\\\\
+First, note that the people are distinguishable, and the number of ways to form subcommittees is independent of the gender. It is simply:
+$${{N}\choose{k}} = {{m+n}\choose{k}}$$
+However, we can split the problem up, and ask first how many subcommittees with $1$ man and $k-1$ women? How many with $2$ men and $k-2$ women? If we sum up all possible committees this way, we obtain:
+$$\sum_{j=0}^k {m\choose{j}}{n\choose{k-j}}$$
+as desired. So, we are simply partitioning the possible subcommittees into those with $j=0,...,j$ men and summing them up. 
+\subsection{Bose-Einstein Problem}
+This problem is covered in the book, so I won't repeat the exposition here.
+\section{Non-naive Definition of Probability}
+We are now ready to construct a formal definition of probabilty ($P$), using our intuition and results from the informal definition.\\
+First, what is $P$? $P$ is a \emph{function}. It takes events (subsets of the sample space) and assigns values in the interval $\left[0,1\right]$. So, we are defining:
+$$P:\mathcal{E}(S)\rightarrow \left[0,1\right]$$
+Where, without getting too technical, $\mathcal{E}(S)$ is the \emph{event space} of the sample space $S$. In the case of a finite sample space, this is the \emph{power set} of $S$, or the set of all subsets of $S$. For technical reasons that we will not concern ourselves with, when dealing with infinite sample spaces, there are sometimes events which must be excluded from the event space. The main take-away here is that $P$ is a map that takes subsets of $S$ to the interval $[0,1]$.\\\\
+Now, $P$ is not just \emph{any} function that takes events to values between $0$ and $1$. It needs a couple of restrictions. What restrictions?  Well, first, we have a couple of 'special' sets. \\\\
+The empty set $\varnothing$ and the sample space (or universal set) $S$ have to be assigned particular values. I.e. the empty set should have $0$ probability and the whole sample space should have probability $1$.\\\\
+There is one more restriction, one that we probably wouldn't just come up with - but it is necessary (and sufficient) for a working definition of probability:
+
+\begin{enumerate}
+\item $P(\varnothing = 0)$ and $P(S)=1$
+\item $$P\left(\bigcup_{j=1}^\infty A_j\right) = \sum_{j=1}^\infty P\left(A_j\right)$$
+for $A_1,A_2,...$ mutually exclusive ($A_i\cap A_j = \varnothing$ for $i\neq j$)
+\end{enumerate}
+Note: $P$ works even if $S$ is uncountable. Any $P$ that satisfies these requirements is a valid probability.
+\subsection{Properties of $P$}
+\begin{prop}
+The following properties of $P$ hold:
+\begin{enumerate}
+\item $P(A^c) = 1-P(A)$ \label{prop1}
+\item $P(A\cup B) = P(A) + P(B)-P(A\cap B)$ \label {prop2}
+\item If $A\subseteq B$ then $P(A)\leq P(B)$ \label{prop3}
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\ref{prop1} We may write:
+$$S = A\cup A^c$$
+thus
+$$P(S) = P(A) + P(A^c)$$
+because $A$ and $A^c$ are mutually exclusive. So
+$$1= P(A)+P(A^c)\iff P(A^c) = 1-P(A)$$ 
+\ref{prop2} We may partition the set $A$ in the following manner:
+$$A= \left(A\cap B\right)\cup\left(A\cap B^c\right)$$
+and from this we obtain:
+\begin{eqnarray}
+P(A) &=& P(A\cap B) + P(A\cap B^c) \iff \nonumber\\
+P(A\cap B^c) &=& P(A) - P(A\cap B) \label{acapbcomp} 
+\end{eqnarray}
+Next, we write:
+$$A\cup B = \left(A\cap B^c\right) \cup B$$.
+Our motivation for this expression is that we want to be able to replace the value of $P(A\cap B^c)$ in \eqref{acapbcomp}. (Also, this is a partition of $A\cup B$.) Applying $P$ to the above equation:
+$$P(A\cup B) = P(A\cap B^c) + P(B)$$
+Now we substitute \eqref{acapbcomp} into the above equation and obtain:
+$$P(A\cup B) = P(A) - P(A\cap B) + P(B)$$
+as required.\\\\
+\ref{prop3} If $A\subseteq B$, then:
+$$B = A\cup\left(B\cap A^c\right)$$
+Applying $P$ yields:
+$$P(B) = P(A) + P(B\cap A^c)$$
+All quantities are positive, so this implies:
+$$P(A)\leq P(B)$$.
+\end{proof}
+
+We went over the matching game as described in the text. I will not repeat the discussion here. We also used R simulate the matching problem and see the large $n$ behavior of the game.
+\end{document}

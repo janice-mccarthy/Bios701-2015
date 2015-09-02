@@ -1,0 +1,39 @@
+ \node[circle, draw](Blue){Blue}
+      child {
+            node[above](1) {1}
+            child {
+                  node[below](White){White}
+                  child {
+                        node[below] (1) {1}
+                        edge from parent
+                  }
+                  child {
+                         node[below] (2) {2}
+                         edge from parent
+                  }
+                  child {
+                        node[below] (3) {3}
+                        edge from parent
+                  }
+                  child {
+                        node[below] (4) {5}
+                        edge from parent
+                  }
+                  child {
+                        node[below] (5) {5}
+                        edge from parent
+                  }
+                  child {
+                        node[below] (6) {6}
+                        edge from parent                 
+                  }                              
+            edge from parent
+            } 
+      }                       
+     ;
+          
+% child {node[below](White) {White}
+    %             node[below]  {$2$}
+%             };    
+   
+\end{tikzpicture}
