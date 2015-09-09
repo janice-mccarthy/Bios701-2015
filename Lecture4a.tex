@@ -1,0 +1,128 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 4a}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Conditional Probability}
+Supposed each chip is labeled with factory 1 or 2. What is the probability the chosen chip is defected, given it was manufactured in factory 1?
+$$P(A|B) = \frac{15}{60} = 0.25$$
+What is $P(B|A)$?
+$$P(B|A) = \frac{15}{20} = 0.75$$
+Note that
+$$P(A|B) \neq P(B|A)$$
+\subsection{Bayesian Viewpoint}
+$$P(A|B) = \frac{P(A\cap B)}{P(B)}$$
+we consider $P(A)$ to be the \emph{prior} probability of $A$ and $P(A|B)$ to be the \emph{posterior} probability of $A$ given the information $B$. So, $P(A)$ represents and initial belief about $A$, and $P(A|B)$ is our updated belief, given the information $B$.\\\\
+NOTE: Conditional probability has nothing to do with causality! $B$ is information that alters our belief about $A$, it does not cause $A$ to occur.\\\\
+The textbook gives the 'Pebble World' viewpoint. This is closer to what I would consider the 'mathematical' viewpoint: Conditioning on $B$ restricts the event space and we represent that by intersecting all events with $B$. To make this a valid probability, we need to renormalize by dividing by $P(B)$.
+\section{Examples in Conditional Probability}
+\begin{example}
+Consider an urn with two marbles, one blue, one red. Draw two marbles, one at a time, with replacement. The possible outcomes are:\\\\
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+BB&BR\\
+\hline
+RB&RR\\
+\hline
+\end{tabular}
+\end{center}
+What is the probability that both are red, given that at least one is red?
+$$P(\textrm{both are red}|\textrm{at least one is red}) = \frac{P(\textrm{both are red AND at least one is red})}{P(\textrm{at least one is red})}$$
+Let $A$ be the event that both are red and $B$ be the event that at least one is red. The above translates to:
+$$P(A|B) = \frac{P(A\cap B)}{P(B)}$$
+
+Note that $A\cap B$ is simply $A$ (as $A\subset B$). Thus:
+$$P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{P(A)}{P(B)}= \frac{1/4}{3/4}=\frac13$$
+
+But we can also read this right off the table. Conditioning on $B$ - that at least one marble is red reduces the possible outcomes:
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+{\tikz\node[cross out, draw] {BB};}&\tikz\node{BR};\\
+\hline
+\tikz\node{RB};&\tikz\node{RR};\\
+\hline
+\end{tabular}
+\end{center}
+
+We can see that given at least one marble is red, there are only $3$ possible outcomes, and the event 'both red' is one of the three.\\\\
+Now, what is the probability that both are red, given that the \emph{first} marble is red?
+$$P(\textrm{both red}|\textrm{first is red})=\frac{P(\textrm{both red AND first is red})}{P(\textrm{first is red})}$$
+Once again, let $A$ be the event both are red. Let $C$ be the event that the first marble is red. Just as before, $C\subset A$, so:
+$$P(A|C)=\frac{P(A\cap C)}{P(C)}=\frac{P(A)}{P(C)}=\frac{1/4}{2/4} = \frac12$$
+Notice that the probability that both are red has \emph{increased} when we provided more explicit information. This is because we have further reduced the number of possible outcomes, while keeping the same outcome of interest. I.e., our outcomes are:
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+{\tikz\node[cross out, draw] {BB};}&\tikz\node[cross out, draw]{BR};\\
+\hline
+\tikz\node{RB};&\tikz\node{RR};\\
+\hline
+\end{tabular}
+\end{center}
+\end{example}
+The book has an example of computing the probability that a family with two children has two girls, given that at least one is a girl born in winter. You might ask, what in the world does a girl being born in winter have to do with anything? It turns out, conditioning on an unrelated event can have an affect. As a further example of this phenomenon, we will solve problem 29 in the text:
+\begin{example}
+Suppose a family as $2$ children. Further suppose that a child can have a trait $C$ with proba bility $p$, independent of each other AND independent of gender. Show that the probability that both children are girls given that at least one girl has trait $C$ is:
+$$\frac{2-p}{4-p}$$
+Let $A$ be the event that both children are girls and let $B$ be the event that at least on child is a girl with trait $C$.
+$$P(A|B)=\frac{P(A\cap B)}{P(B)}$$
+Let's set some more notation:\\\\
+Let $A_1$ be the event that a child is a girl. Let $B_1$ be the event a child has trait $C$. Now, we will first compute denominator, $P(B)$ - the probability that at least one child is a girl with $C$. First note:
+$$P(\textrm{one girl with }C) = P(A_1\cap B_1) = P(A_1)\cdot P(B_1) = \frac12\cdot p$$
+and
+$$P(\textrm{one child is NOT a girl with }C) = P((A_1\cap B_1)^c) = 1-\frac{p}2$$
+which yields:
+$$P(\textrm{both children are NOT girls with }C) = \left(1-\frac{p}2\right)^2$$
+so finally:
+$$P(\textrm{at least one girl with }C)= P(B) = 1-\left(1-\frac{p}2\right)^2$$
+
+Now, for the numerator. We want the probability that both children are girls AND at least one is a girl with $C$. This is the same as the probability that both children are girls AND at least one has $C$ (once we have that both are girls, we no longer need to account for gender). So:
+$$A\cap B = \textrm{the event that both children are girls AND at least one has }C = $$
+$$(\textrm{both are girls and both have} C)\cup(\textrm{both are girls and first girl has }C \textrm{ and other does not})\cup$$
+$$ (\textrm{both are girls and second girl has }C\textrm{ and other does not})$$
+Note that we have \emph{partitioned} the event of the intersection into a union of mutually exclusive events. I.e., if we let $C_1$ be the event that both are girls and both have $C$, $C_2$ be the event that both are girls and first has $C$ but other does not and $C_3$ be the event that both are girls and the second girl has $C$ but first does not.
+$$P(A\cap B) = P(C_1)+P(C_2)+P(C_3)$$
+$$P(C_1) = \left(\frac{p}2\right)^2$$
+and
+$$P(C_2)=P(C_3) = \frac{p(1-p)}{4}$$
+thus:
+$$P(A\cap B) = \left(\frac{p}2\right)^2 + 2 \frac{p(1-p)}{4} = \frac{p^2}{4}+\frac{p(1-p)}2$$
+Putting it all together:
+$$P(A|B) = \frac{\frac{p^2}{4}+\frac{p(1-p)}2}{1-\left(1-\frac{p}2\right)^2}$$
+$$= \frac{\frac{p^2}4+\frac{p}2-\frac{p^2}2}{1-\left(1-p+\frac{p^2}4\right)} = \frac{\frac{p}2-\frac{p^2}4}{p-\frac{p^2}4} = \frac{2-p}{4-p}$$
+\end{example}
+This demonstrates how conditioning on an unrelated event (having trait $C$) can affect the probability of an outcome. Note that when $p=1$, this probability is $1/3$, and as $p\rightarrow0$, this approaches $1/2$. The take-home message: Probability is subtle! Don't make assumptions. 
+\end{document}
