@@ -1,0 +1,108 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 5}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Independence Continued}
+Recall that two events $A$ and $B$ are independent $\iff$ $P(A\cap B) = P(A)P(B)$. Extending to triplets, $A,B$ and $C$ requires that the events are pairwise independent, and that $P(A\cap B \cap C) = P(A)P(B)P(C)$.\\\\
+For $n$ events $A_1,...,A_n$, we require that probability of any possible intersection is the product of the probability of each of the events in the intersection. For an infinite collection, we require that all finite subcollections have this property.
+\section{Conditional Independence}
+\begin{defn}
+Events $A$ and $B$ are \emph{conditionally independent given $E$} $\iff$ 
+$$P(A\cap B|E) = PA(A|E)P(B|E)$$
+\end{defn}
+It is important to note the following:
+\begin{enumerate}
+\item Independence does not imply conditional independence.
+\item Conditional independence does not imply dependence.
+\item If two events are conditional given $E$, that does NOT mean they are conditional given $A^c$.\\\\
+\end{enumerate}
+\begin{example}
+
+Roll a die. Let $A = \left\{1,2\right\}, B= \left\{2,4,6\right\}$ and $C=\left\{1,4\right\}$
+
+Then $P(A)=\frac13$ and $P(B)=\frac12$.
+$$P(A\cap B) = P(\left\{2\right\}) = \frac16 = P(A)P(B)$$
+So, $A$ and $B$ are independent. But $P(A|C) =\frac12$, $P(B|C)=\frac12$ and 
+$$P(A\cap B|C) = P(\left\{2\right\}|C) = 0$$
+so the events are not conditionally independent given $C$.
+
+\end{example}
+\begin{example}
+
+Suppose Mary and Jane work together, but live on opposite sides of the city. Suppose Mary takes the train to work and Jane drives. Let $A$ be the event that Mary is late for work, and let $B$ be the event that Jane is late for work. These events are not independent. There could be some common cause making both Jane and Mary late. Suppose further that we know there is a train strike (event $C$). Now, Mary has an increased chance of being late due to the strike, and so does Jane (because the strike likely would lead to more traffic). So, the events $A$ and $B$ are NOT independent, but given $C$ they are independent. Once we have accounted for the strike, Mary or Jane being late is not dependent on the other. Also note that the complement of $C$ (i.e. there is no train strike) does not lead to conditional independence for $A$ and $B$ given $C^c$.  
+\end{example}
+\section{Coherency}
+Note that Bayes Rule does not depend on the order in which we incorporate the evidence. We'll demonstrate this property using an example.
+\begin{example}{Drug Testing Revisited}
+Recall our drug testing example: We have a test that has $98\%$ sensitivity and $90\%$ selectivity. Assuming a drug use prevalence of $10\%$, we computed that the probability a person who tests positive has actually used the drug is about $52\%$. Suppose we administer the same test again to the same individual. Let $T_1$ be the event that the first test is positive and let $T_2$ be the event that the second test is positive, and assume the tests are independent. Let $A$ be the event that the person being tested has used the drug. We use the \emph{odds form} of Bayes Rule to compute the odds of drug use given the first test is positive:
+
+$$\frac{P(A|T_1)}{P(A^c|T_1)} = \frac{P(A)}{P(A^c)}\frac{P(T_1|A)}{P(T_1|A^c)}$$
+Recall that this statement says that we find our posterior odds by taking the prior odds and adjusting based on the evidence (via the likelihood ratio). This yields:
+$$\frac{P(A|T_1)}{P(A^c|T_1)} = \frac{0.10}{0.90}\frac{0.98}{0.90} = 1.09$$
+which corresponds to 
+$$P(A|T_1) = \frac{1.09}{1+1.09} = 0.52$$
+and this is in agreement with our initial computation. Now, we use the updated odds as prior odds and compute the effect of a second positive test:
+$$\frac{P(A|T_1\cap T_2)}{P(A^c|T_1\cap T_2)}= \frac{P(A|T_1)}{P(A^c|T_1)}\frac{P(T_2|A,T_1)}{P(T_2|A^c,T_1)}$$
+$$ = 1.09\frac{0.98}{0.10} = 10.67$$
+which corresponds to:
+$$P(A|T_1\cap T_2) = \frac{10.67}{11.67} = 0.91$$
+This result gives us substantially greater suspicion that the person actually does use the drug.\\\\
+Now, to demonstrate coherence, we will perform the computation in one step:
+$$\frac{P(A|T_1\cap T_2)}{P(A^c|T_1\cap T_2)}= \frac{P(A)}{P(A^c)}\frac{P(T_1\cap T_2|A)}{P(T_1\cap T_2|A^c)}$$
+$$= \frac19\frac{(0.98)^2}{(0.10)^2} = 10.67$$
+and once again:
+$$P(A|T_1\cap T_2) = \frac{10.67}{11.67} = 0.91$$
+\end{example}
+Now, we have assumed that the tests were independent (probably true) and we have assumed that the person being tested does not have some biological anomaly that would affect the specificity of the test (likely a reasonable assumption - but...).
+\section{Monty Hall}
+The book gives a very good explanation of this problem. I will not re-iterate here.
+\section{Pitfalls and Paradoxes}
+Read through the examples in the text. In particular, note
+\begin{itemize}
+\item Prosecutor's fallacy - Makes incorrect assumption of independence and confuses $P(innocence|evidence)$ with $P(evidence|innocence)$
+\item Defense Attorney's fallacy - Not conditioning on ALL the evidence.
+\item Simpson's paradox and aggregation of data.
+\end{itemize}
+For the remainder of the class, we simulated the gender probability problems and the Monty Hall problem. This code may help in one of the HW assignments (if you are so inclined).
+\end{document}
