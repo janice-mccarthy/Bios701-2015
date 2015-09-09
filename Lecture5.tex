@@ -1,0 +1,74 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 5}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Conditional Probability Continued}
+We will use Bayes Rule and LOTP to solve the following:
+\begin{example}{Drug Testing}
+Suppose a test for drug use has $98 \%$ sensitivity (it returns a positive result $98\%$ of the time when a person has actually used the drug) and has $90\%$ specificity (it will return a negative result $90\%$ of the time when a person has not used the drug). Suppose also that about $10\%$ of the population uses the drug. We test someone and the test is positive. A reasonable thing to ask might be: What is the probability the person actually uses the drug, given the positive test?\\\\
+Let $A$ denote the event that the person uses the drug and let $+$ ($-$)  denote a positive (negative) result. We wish to compute:
+$$P(A|+)$$
+By Bayes Rule:
+$$P(A|+) = \frac{P(+|A)P(A)}{P(+)}$$
+We know that
+$$P(+|A_) = 0.98 \textrm{ and } P(A) =0.10$$
+We do not know $P(+)$ directly, but we can compute it from the LOTP:
+$$P(+) = P(+|A)P(A) + P(+|A^c)P(A^c)$$
+so:
+$$P(A|+) = \frac{P(+|A)P(A)}{P(+|A)P(A) + P(+|A^c)P(A^c)} = \frac{(0.98)(0.10)}{(0.98)(0.10)+(0.10)(0.90)} = 0.52$$
+\end{example}
+So, conditional on a positive test, the odds are almost even that the person uses the drug or not. Why? The test seems pretty accurate. The issue lies partly in the error rate, but is also dependent upon the prior probability $P(A)$. With an incidence rate of $10\%$, the prior probability that a person does not use the drug is very high.\\\\
+Just for fun: Code this in $R$ and see what the parameters might need to be for the test to be more convincing.\\\\
+The book has a very nice discussion on this trade-off in the context of testing for a rare disease. Read it!
+\section{Conditional Probability is Probability}
+Recall our definition of $P$:\\
+
+Given a sample space $S$,
+A map $P$ from the event space to the interval $[0,1]$ is a probability if it satisfies the following properties:
+\begin{itemize}
+\item $$P(\varnothing) = 0 \textrm{ and } P(S) = 1$$
+\item For a collection $A_1,A_2,...$ of mutually exclusive events ($A_i$ are pairwise disjoint), we have:
+$$P(A_1\cup A_2,...) = \sum_{i=1}^\infty P(A_i)$$
+\end{itemize}
+\end{document}
