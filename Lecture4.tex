@@ -1,0 +1,64 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 3}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Conditional Probability}
+Conditional probability is how we incorporate observations. For example, we might want to know the probability that a particular individual has lung cancer. His or her chances vary with certain risk factors. I.e.:
+$$P(\textrm{lung cancer})\neq P(\textrm{lung cancer given person is a smoker})$$
+\begin{defn}
+$$P(A|B) = \frac{P(A\cap B)}{P(B)} \;\;\;\;\;\textrm{provided }BP(B)\neq 0$$
+where the left hand side is read 'probability of $A$ given $B$'. 
+\end{defn}
+Let's focus on the right hand side. We are intersecting the event $A$ with the event $B$, and dividing by $P(B)$. This is essentially restricting the sample space to $B$, and \emph{renormalizing}, so that $P(B|B) = 1$.
+\begin{example}
+Consider a box containing $100$ microchips. Some are made in factory 1, others in factory 2. Some are defective and others are not. We choose a chip at random. Let $A$ be the event that the chip is defective and $B$ be the event that the chip was made in factory 1 (so that $A^c$ is the event that the chip is not defective and $B^c$ is the event that the chip was made in factory 2). Suppose the following table describes the contents of the box:\\\\
+\begin{tabular}{c|c c|c}
+& $B$ & $B^c$& \\
+\hline
+$A$& $15$& $5$ &$20$\\
+$A^c$& $45$ & $35$ &$30$\\
+\hline
+& $60$ & $40$ & $100$
+\end{tabular}
+
+What is the probability the chip is defective?
+$$P(A) = \frac{20}{100} = 0.20$$
+
+Suppose each chip is labeled with the factory of origin. What is the probability the chip is defective, given that it was made in factory 1?
+$$P(A|B) = \frac{15}{60} = 0.25$$
+Note that we can calculate this directly by restricting to the column of the table corresponding to $B$, or we can use the definition:
+$$P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{15}{100}/\frac{60}{100} =  \frac{15}{60} = 0.25$$
+\end{example}
+\end{document}
