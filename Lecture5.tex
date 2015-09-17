@@ -71,4 +71,30 @@ A map $P$ from the event space to the interval $[0,1]$ is a probability if it sa
 \item For a collection $A_1,A_2,...$ of mutually exclusive events ($A_i$ are pairwise disjoint), we have:
 $$P(A_1\cup A_2,...) = \sum_{i=1}^\infty P(A_i)$$
 \end{itemize}
+We will show that conditional probability is a valid probability.
+\begin{thm}
+$P(\cdot|E)$ is a probability.
+\end{thm}
+\begin{proof}
+Let $P$ be a probability on a sample space $S$. For some event $E$ and any event $A$ in the event space, define:
+$$\tilde{P}(A) = P(A|E)$$
+We will show that $\tilde{P}$ satisfies our axioms of probability.
+\begin{enumerate}
+\item $$\tilde{P}(\varnothing) = P(\varnothing|E) = \frac{P(\varnothing\cap E)}{P(E)} = \frac{P(\varnothing)}{P(E)} = 0$$
+and
+$$\tilde{P}(S) = P(S|E) = \frac{P(S\cap E)}{P(E)} = \frac{P(E)}{P(E)} = 1$$
+\item Let $A_1,A_2,...$ be mutually exclusive events. 
+$$\tilde{P}(A_1\cup A_2 \cup ...) = \frac{P\left(\left(A_1\cup A_2 \cup ...\right)\cap E\right)}{P(E)} = \frac{P\left(\left(A_1\cap  E \right)\cup \left(A_2 \cap E\right)\cup ...\right)}{P(E)}$$
+$$ = \frac{\sum_{j=1}^\infty P(A_j\cap E)}{P(E)} = \sum_{j=1}^\infty \tilde{P}(A_j)$$
+\end{enumerate}
+\end{proof}
+Now that we have shown that conditional probability is indeed a probability, it has the properties we have proven for probabilities:
+\begin{itemize}
+\item $$P(A^c|E) = 1- P(A|E)$$
+\item $$ P(A\cup B|E) = P(A|E)+ P(B|E) -P(A\cap B|E)$$
+\end{itemize}
+Note: An important point that is also highlighted in your textbook: $A|E$ is NOT 
+an event. The events that are considered in conditional probability are the \emph{intersections} of the events in the unconditional sample space with the event we condition on. Now, $A\cap E$ is an event. In particular, as we noted when we defined conditional probability, we are restricting events in the total space to events that are also in $E$, and then we 'renormalize' to get a valid probability.
+\subsection{Conditional Forms of Bayes' Rule and LOTP}
+These are covered well in the book, so I will not repeat here. 
 \end{document}
