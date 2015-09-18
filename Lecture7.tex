@@ -1,0 +1,177 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 7}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Random Variables}
+Up until now, we have considered probability as a map defined on the event space. This view is a bit limited, as events can become unwieldy - especially as we move on and investigate things such as expected value, variances, etc. So, we would like a mathematical object that is easier to deal with than events, but it does need to be \emph{related} to events in a precise way. A \emph{function} is such an object:
+\begin{defn}
+Let $S$ be a sample space and $\mathcal{E}(S)$ the corresponding space of events.  A \emph{random variable}, $X$, is a function:
+$$X:\mathcal{E}(S)\rightarrow \mathbb{R}$$.
+\end{defn}
+So, random variables are \emph{functions} that assign numerical values to events.\\\\
+Note: I am using the concept 'event space' again, which may be simply the 'power set' (set of all subsets) of $S$. The book (and many other probability texts at this level) define random variables (and probabilities) as functions on the sample space. This \emph{technically} incorrect, as we define probability and random variables on \emph{events}, which are subsets, not elements of $S$. Of course, any event may be written as a union of 'elementary' events (single elements of $S$), and that union is a \emph{partition}, we can just take our probability map to be defined on $S$ and use the second axiom to extend to events. If this confuses you, and you would rather just think of both $P$ and $X$ to be functions on $S$, that is fine for the purposes of this course. If you plan to go on to a PhD program, you might want to understand this, as it will become important in measure theory ('event space' will be a mathematical object known as a $\sigma$-algebra or $\sigma$-field, and it will be precisely defined).\\\\
+
+What do random variables look like? Here is a familiar example:
+
+\begin{example}
+Consider the experiment of tossing a coin $10$ times. Let $X =$ the number of times a head appears. $X$ is a random variable. It takes an event (say: TTTTHTHTTH) and assigns it a number (3).
+\end{example}
+
+There are two main categories of random variables: discrete and continuous (Remember how we made a big deal about 'countable' and 'uncountable' sets in the first lecture? This is where the concepts really come up in our context.) We will first discuss the discrete case and some of their 'distributions' (we'll get to that), and then we will examine some continuous cases. We'll start to stretch your calculus muscles then, so be ready!\\\\
+
+
+\begin{defn}
+Let $X$ be a random variable. If the set of all possible values of $X$ ($x_1,x_2,...$) is \emph{countable} or finite, then $X$ is called a \emph{discrete} random variable.
+\end{defn}
+
+Now, random variables are \emph{never alone}. They always come with a 'distribution'. A distribution is a way of assigning probabilities to the possible values of a random variable. Indeed, without such a thing, random variables wouldn't be random at all. There are a couple of ways to specify a distribution, and we will first consider something called the 'probability mass function'.\\\\
+\begin{defn}
+The function:
+$$f(x) = P(X=x) \;\;\;\textrm{ for } x = x_1,x_2,...$$
+is called the \emph{probability mass function} or 'pmf' of $X$.
+\end{defn}
+Note: some refer to the pmf as the 'discrete probability density function', but we'll use pmf (mostly). Also note that your book uses $p(x)$ instead of $f(x)$ for the pmf. This is non-standard notation, and I will use $f(x)$ in class.\\\\
+The text gives lots of examples of random variables, and you should read through them. One important point the text makes: Two random variables can have the \emph{same} pmf, but they can still be \emph{entirely different} random variables. We covered this example in class, but it is in the book, so  I won't repeat it here.\\\\
+Now that we have defined the pmf, we might ask what properties it requires and which functions qualify:\\\\
+\newpage
+\begin{thm}
+A function $f(x)$ is a pmf $\iff$ the following are satisfied for an at-most countable set of real numbers $x_1,x_2,...$:
+\begin{enumerate}
+\item $$f(x_i)\geq 0 \forall i$$
+\item $$\sum_{i}f(x_i) = 1$$
+\end{enumerate}
+\end{thm}
+So, $f$ that satisfies the above is a valid pmf, and any pmf satisfies the above.
+\subsection{Named Distributions}
+Some distributions come up so often, they have names. In this course, a major goal is to get you acquainted with many of these named distributions. Now, this may come as a shock, but discrete random variables have discrete distributions and continous random variables have continuous distributions (it is possible for a random variable to have a mixture of these as well). Here are the distributions we will study:\\\\
+
+\begin{center}
+\begin{tabular}{ l c c l }	
+
+Discrete&&\hspace{6 in}& Continuous\\\\
+
+Bernoulli &&& Uniform\\
+Binomial &&& Gamma (including $\chi^2$ and EXP)\\
+Hypergeometric &&& Pareto? Weibull?\\
+Geometric &&& Normal\\
+Negative Binomial&&&\\
+Poisson&&&\\
+Discrete Uniform
+\end{tabular}
+\end{center}
+These are the univariate distributions - we will of course study a number of joint distributions as well.\\\\
+\subsubsection{Bernoulli Distribution}
+A random variable $X$ has a Bernoulli distribution with parameter $p$ ($X \sim \textrm{Bern}(p)$) $\iff$ 
+$$P(X=1) = p \textrm{ and } P(X=0) = 1-p$$
+The parameter $p$ is often called the 'success probability', and we often use $q=1-p$ to simplify expressions. The quantity $q$ is known as the 'failure probability'.\\\\
+We can think of a Bernoulli variable as representing the outcome of a coin toss, where the probability of a head is not necessarily $frac12$ (i.e. a biased coin).\\\\
+Note that \emph{any} event has a Bernoulli random variable associated with it. An event either occurs or it does not. We call this random variable the \emph{indicator} random variable.\\\\
+\begin{defn}
+The \emph{indicator} random variable associated with an event $A$ is the random variable $I_A$ such that:
+$$I_A = 1 \textrm{ if } A \textrm{ occurs and } I_A = 0 \textrm{ if } A \textrm{ does not occur }$$
+\end{defn} 
+Note that there is also something called an \emph{indicator function}, which is simply a function (not a random variable).\\\\
+\subsubsection{Binomial Distribution}
+Suppose we toss a coin or perform and experiment that has some binary outcome with probabilities of the two outcomes being $p$ and $1-p$ (with $0<p<1$). We call this a \emph{Bernoulli trial with success probability} $p$. Now, say we perform $n$ \emph{independent} trials of such an experiment and let 
+$$X = \textrm{ number of successes in } n \textrm{ trials.}$$
+Then we say $X$ is a \emph{binomial} random variable and write:
+$$X\sim Bin(n,p)$$
+What is the pmf of $X$? We want to know:
+$$P(X = x)$$
+for $x=0,1,2,...,n$. The pmf will be zero for any other values of $x$, as none of those outcomes are possible. First, lets consider one possible outcome of the $n$ trials. Say we have $x$ successes followed by $n-x$ failures:
+$$\underbrace{SSS...SS}_{x\textrm{ success}}\underbrace{FFF...FF}_{n-x\textrm{ failures}}$$
+What is the probability of this particular outcome? The first success has probability $p$, as does the second and the third, and so on up to the $x^{th}$. The first failure has probability $1-p$ as does the second and third and so on up to the $n-x^{th}$. By the multiplication rule:
+$$P(SSS...SSFFF...FF) = p^x(1-p)^{n-x}$$
+Now, we are interested only in the \emph{number} of successes. So, how many rearrangements are possible? We know this from our counting theorems and the answer is 
+$$n\choose{x}$$
+thus, 
+$$P(X = x) = {n\choose{x}} p^x(1-p)^{n-x}$$
+Usually, we will write $q=1-p$, so that 
+$$P(X = x) = {n\choose{x}} p^xq^{n-x}$$
+We can summarize this as a theorem:
+\begin{thm}
+If $X\sim Bin(n,p)$ and we define $q=1-p$, the pmf of $X$ is given by:
+$$P(X = x) = \begin{matrix}&\\&\\{n\choose{x}} p^xq^{n-x}&\textrm{ for } x=0,1,2,...,n\\&\\0&\textrm{ otherwise}\end{matrix}$$
+\end{thm}
+Note: values of $x$ for which $P(X=x)\neq 0$ are called the \emph{support} of $X$ (technically speaking, this is the support of the pmf).\\\\
+Now, speaking of pmf's, we should check that the binomial pmf is valid.
+\begin{thm}
+$${n\choose{x}} p^x(1-p)^{n-x}$$
+is a valid pmf.
+\end{thm}
+\begin{proof}
+Clearly, this expression is $\geq 0$ for all $x = 0,1,2,...$. We need to check that it sums to $1$ over its support and we are done.
+$$\sum_{x=0}^n {n\choose{x}}p^x(1-p)^{n-x}= (p+(1-p))^n = 1$$
+\end{proof}
+
+Note: for $p=q=\frac12$ and $n$ even, the distribution is symmetric. To see this, note that for any $j$,
+$$P(X = \frac{n}2+j) = {n\choose{\frac{n}2+j}} p^{\frac{n}2+j}q^{n-(\frac{n}2+j)} = {n\choose{\frac{n}2+j}} p^{\frac{n}2+j}q^{\frac{n}2-j)}$$
+and
+$$P(X = \frac{n}2-j) = {n\choose{\frac{n}2-j}} p^{\frac{n}2-j}q^{n-(\frac{n}2-j)} = {n\choose{\frac{n}2-j}} p^{\frac{n}2-j}q^{\frac{n}2+j)}$$
+We know that:
+$${n\choose{\frac{n}2+j}} = {n\choose{n-\frac{n}2+j}} = {n\choose{\frac{n}2-j}}$$
+we see that for $p=q$,
+$$P(X=\frac{n}2+j) = P(X=\frac{n}2-j)$$
+so that the distribution is symmetric about $\frac{n}2$. For all other values of $p$, the distribution is skew. (However, in the limit as $n\rightarrow\infty$, the distribution does become symmetric, for any value of $p$).\\\\
+\subsubsection{Hypergeometric Distribution}
+Consider an urn with balls of two different colors, say $w$ are white and $b$ are black. If we draw $n$ at random, without replacement ($0\leq n\leq w+b$), how many possible outcomes are there (if order does not matter)? We know that this is given by a combination, i.e.:
+$${{w+b}\choose n}$$
+Now, let $X$ be the number of white balls in our sample. Then $X\sim HGeom(w,b,n)$. What does this pmf look like? We want:
+$$P(X=x) \textrm{ for } 0\leq x\leq w$$
+Our pmf will be zero for all other values of $x$. Now, let's fix $x$ and ask: how many ways can we draw \emph{exactly} $x$ white balls and $n-x$ black balls? There are
+$${w\choose{x}}$$
+ways to choose $x$ white balls and
+$${b\choose{n-x}}$$
+ways to choose $n-x$ black balls. By the multiplication rule, we have:
+$${w\choose{x}}\cdot{b\choose{n-x}}$$
+total ways to choose $x$ white and $n-x$ black balls. Now, dividing by the number of all possible outcomes, we obtain:
+$$P(X=x) = \frac{{w\choose{x}}\cdot{b\choose{n-x}}}{{{w+b}\choose{n}}}$$
+To see that this is a valid pmf, we need to show that the pmf over all possible values of x sums to 1.
+$$\sum_{x=0}^{w}\frac{{w\choose{x}}\cdot{b\choose{n-x}}}{{{w+b}\choose{n}}}$$
+We just need to apply Vandermonde's identity:
+$${w+b \choose n}=\sum_{k=0}^n{w \choose x}{b \choose n-x}$$
+and we have the result.\\\\
+Putting this in more general terms, a random variable has the hypergeometric distribution with parameters $w,b$ and $n$ if we have two types of objects, $w$ of one type and $b$ of the other, we choose $n$ of them without replacement and let $X$ be the number of objects of type one we choose. The book gives the example of tagging elk. There are a number of elk ($w+b$) and we capture and tag $w$ of them. The tagged elk are now like the white balls - and there are $w$ of them and the untagged elk are like the black balls and there are $b$ of them. We then recapture $n$ elk, and let $X$ be the number of elk that are tagged twice. Thus $X\sim HGeom(w,b,n)$\\\\
+Another (famous) example is the Lady Drinking Tea. Muriel Bristol, a friend of Fisher's claims she can taste whether the tea was poured first and the milk added or vice-versa. The experiment is a number of cups of tea $w+b$ are made, $w$ with milk first and $b$ with tea first. If Dr. Bristol needs to choose the cups that are made via one of the two methods. We'd like to know, what are the probabilities of certain choices, given the 'null hypothesis' that she cannot tell the difference. 
+\end{document}
