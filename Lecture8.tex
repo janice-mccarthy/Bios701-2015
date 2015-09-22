@@ -1,0 +1,55 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 8}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Common Discrete Distributions - Continued}
+Last time, we defined random variables with two of the common discrete distributions: namely, $X =$ number of successes in $n$ Bernoulli trials with success probability $p$ - a random variable with the binomial distribution and $X = $ number of items of one type when sampling $n$ items from a total of $w+b$ items, where there are $w$ items of type 1 and $b$ items of type 2 - a random variable with the hypergeometric distribution. we now present a theorem that illustrates a relationship between these two different distributions:\\\\
+\begin{thm}
+If $X\sim HGeom(w,b,n)$, then for each $x=0,1,2,...,n$ and for $N=w+b. p=\frac{w}N$:
+$$\lim\limits_{N\rightarrow\infty}\frac{{w\choose{x}}{{b\choose{n-x}}}}{{{w+b}\choose{n}}} = \lim\limits_{N\rightarrow\infty}\frac{{w\choose{x}}{{{N-w}\choose{n-x}}}}{{{N}\choose{n}}} = {n\choose{x}}p^x\left(1-p\right)^{n-x}$$
+\end{thm}
+The proof of this theorem is an exercise in manipulation of factorials, and we will not cover it. What is important to realize is the following:\\\\
+When $n$ is small relative to $N=w+b$, the binomial distribution is a good approximation for the hypergeometric. That is because when $n$ is small relative to $N$, sampling without replacement looks a lot like sampling with replacement.  This is used a lot in polling, for example. If we poll $1,000$ people out of $10,000,000$, technically speaking, we are sampling \emph{without} replacement. Practically speaking, however, it is about the same as sampling \emph{with} replacement, because the sample is so small, the probability of a person being chosen twice is negligible.\\\\
+The book has a nice example relating $HGeom$ to $Bin$ as a result of conditioning. See example $3.9.1$.
+\end{document}
