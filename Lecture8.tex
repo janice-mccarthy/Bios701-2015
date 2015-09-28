@@ -52,4 +52,92 @@ $$\lim\limits_{N\rightarrow\infty}\frac{{w\choose{x}}{{b\choose{n-x}}}}{{{w+b}\c
 The proof of this theorem is an exercise in manipulation of factorials, and we will not cover it. What is important to realize is the following:\\\\
 When $n$ is small relative to $N=w+b$, the binomial distribution is a good approximation for the hypergeometric. That is because when $n$ is small relative to $N$, sampling without replacement looks a lot like sampling with replacement.  This is used a lot in polling, for example. If we poll $1,000$ people out of $10,000,000$, technically speaking, we are sampling \emph{without} replacement. Practically speaking, however, it is about the same as sampling \emph{with} replacement, because the sample is so small, the probability of a person being chosen twice is negligible.\\\\
 The book has a nice example relating $HGeom$ to $Bin$ as a result of conditioning. See example $3.9.1$.
+\subsection{Geometric Distribution}
+Another discrete distribution that is based on Bernoulli trials is the Geometric distribution.
+\begin{defn}
+Let $X$ be the number of trials required to obtain the first success in repeated, independent Bernoulli trials, where each trial has success probability $p$ (and failure probability $1-p=q$). Then $X$ is said to have the Geometric distribution, or $X\sim Geom(p)$.
+\end{defn}
+What is the pmf of $X$? To obtain the first success on trial number $x$, we need one success after $x-1$ failures. The Bernoulli trials are \emph{independent}, so this is given by:
+$$f(x) = \left\{\begin{matrix}
+pq^{x-1} & \textrm{ for } x=1,2,3,...\\
+0&\textrm{ otherwise}
+\end{matrix}\right.$$
+Note that in contrast to the Binomial random variable, there is only \emph{one} way to obtain the first success after $x-1$ failures. Now, we need to check whether $f(x)$ is a valid pmf.
+\begin{thm}
+$$f(x) = \left(\begin{matrix}
+pq^{x-1} & \textrm{ for } x=1,2,3,...\\
+0&\textrm{ otherwise}
+\end{matrix}\right)$$
+is a valid pmf.
+\end{thm}
+\begin{proof}
+We need to check whether $f(x)\geq 0$ and that it sums to $1$ over the entire support. Clearly, $f(x)\geq 0$. Now consider:
+$$\sum_{x=1}^\infty p q^{x-1}$$
+This is an infinite series! Note that because $p$ does not depend on the index $x$, we can factor it out of the sum:
+$$\sum_{x=1}^\infty p q^{x-1} = p\sum_{x=1}^\infty q^{x-1}$$
+Now,
+$$\sum_{x=1}^\infty q^{x-1} = 1+q+q^2+q^3+...$$
+is actually the Taylor series expansion for 
+$$\frac1{1-q}$$
+about $q=0$ for $|q|<1$. Therefore:
+$$p\sum_{x=1}^\infty q^{x-1} = p \frac1{1-q}= \frac{p}{p}=1$$
+\end{proof}
+\begin{example}
+Suppose a baseball player hits $30\%$ of the time. Assume at-bats are independent and let $X$ be the number of at-bats required to get a hit. What is the probability that it takes $5$ at-bats to get a hit?\\\\
+$$P(X=5)=(0.7)^4(0.3)$$
+
+Now, suppose the batter has had $10$ at-bats with no hits. What is the probability that it will take $5$ more at-bats to get a hit?\\\\
+$$P(X=5) = (0.7)^4(0.3)$$
+This is called the 'no memory' property of the Geometric distribution. An example is the 'Gambler's fallacy'. Say a gambler is playing Roulette, and red comes up $10$ times in a row. The gambler thinks, "I should bet on black, because it is due to come up!" This is an error caused by assigning Binomial probabilities to a Geometric random variable. The probability of black coming up \emph{at some point} increases with the number of spins of the wheel - but on \emph{any given spin}, the probability of black coming up after $x$ number of red spins is the same. Also, the fact that red has come up so often is actually evidence that the wheel is biased toward red, and so that is the better bet!
+\end{example}
+\subsection{Negative Binomial}
+Yet another discrete distribution based on Bernoulli trials is called the \emph{Negative Binomial}.
+\begin{defn}
+Let $X$ be the number of independent Bernoulli trials with success probability $p$ required to obtain $r$ successes. Then $X$ is said to have the \emph{Negative Binomial} distribution.
+\end{defn}
+Again, we will derive the pmf, but first we introduce a new notation here, associating with the pmf some \emph{parameters}. Parameters are variables in a pmf that are 'fixed' for a particular RV and its distribution. For example,the variables $n$ and $p$ in the Binomial distribution are  parameters, and we may write the pmf as $f(x;n,p)$ to make clear the dependence of the pmf on those parameters.\\\\
+The Negative Binomial has parameters $p$ and $r$. The event $X=x$ occurs when the $r^{th}$ success happens on the $x^{th}$ trial - after $r-1$ successes have occurred. Now, these are \emph{independent} Bernoulli trials, thus:
+$$P(X=x) = P(r^{th}\textrm{ success on the }x^{th} \textrm{ trial}) P(r-1\textrm{ successes in } r-1\textrm{ trials})$$
+The first term on the right hand side is a Bernoulli trial. The second is a Binomial with $n=x-1$ trials. Thus:
+$$P(X=x) = f(x;r,p) = p\cdot {{x-1}\choose{r-1}}p^{r-1}q^{x-1-r+1} = {{x-1}\choose{r-1}}p^rq^{x-r} \textrm{ for } x=r,r+1,r+2,...$$
+\subsection{Poisson}
+\begin{defn}
+A discrete random variable $X$ is said to have the \emph{Poisson distribution} with parameter $\mu$ if its pmf has the form:
+$$f(x;\mu) = \left\{\begin{matrix}
+\frac{e^{-\mu}\mu^x}{x!} & x=0,1,2,3,...\\0&\textrm{ otherwise}
+\end{matrix}\right.$$
+\end{defn}
+When $X$ has the Poisson distribution with parameter $\mu$, we write:
+$$X\sim Poi(\mu)$$
+This distribution represents the probability of a number of events occurring in a fixed period of time, when the \emph{average} rate of occurrence is known and occurrence of an event is independent of the time since the last occurrence. We will revisit this distribution later when we discuss Poisson processes, but for now, we are interested in its relationship to the Binomial distribution.\\\\
+\begin{thm}
+If $X\sim Bin(n,p)$, then for each $x=0,1,2,...$ and as $p\rightarrow 0$ with $np=\mu$ fixed:
+$$\lim_{n\rightarrow\infty} {n\choose{x}}p^xq^{n-x} = \frac{e^{-\mu}\mu^x}{x!}$$
+where $q=1-p$, as usual.
+\end{thm}
+The book covers this proof pretty well. See page 167.
+\subsection{Summary of Discrete Distributions Related to Bernoulli Trials}
+You may have noticed, each of the discrete distributions we have discussed is related to Bernoulli trials (except for the Poisson, which is related in a limiting fashion). Here is a summary of the different distributions and how they relate to Bernoulli trials:\\\\
+\begin{itemize}
+\item Bernoulli - One Bernoulli trial, with success probability $p$ and failure probability $q=1-p$.
+\item Binomial $X$ = number of successes in $n$ \emph{independent} Bernoulli trials, where each trial has success probability $p$.
+$$f(x;n,p) = {n\choose{x}}p^xQ^{n-x}$$
+\item Hypergeometric $X$ = number of items of one type drawn from a set of objects where $w$ are type 1 and $b$ are type 2, when $n$ objects are drawn \emph{without replacement}. Each selection of an object is a Bernoulli trial, but the trials are \emph{not} independent (because we select without replacement). The pmf is:
+$$f(x;w,b,n) = \frac{{w\choose{x}}{b\choose{n-x}}}{{{w+b}\choose{n}}} \textrm{ for } x=0,1,2,...,w$$
+\item Geometric $X$ = number of independent Bernoulli trials with success probability $p$ required to get first success. The pmf is:
+$$f(x;p) = pq^{x-1} \textrm { for } x=1,2,3,...$$
+\item Negative Binomial $X$ = number of independent Bernoulli trials with success probability $p$ required to get $r$ successes. The pmf is:
+$$f(x;r,p) = {{x-1}\choose{r-1}}p^rq^{x-r} \textrm{ for } x=r,r+1,r+2,...$$
+\end{itemize}
+\section{Next}
+We need to define one more discrete distribution, then we will take a quick look at expectation and variance so that we can get quickly into continuous distributions. The remaining (main) topics for the course are:
+\begin{itemize}
+\item Expectation and Variance
+\item Continuous Distributions
+\item Moments and Moment Generating Function
+\item Joint Distributions
+\item Transformations of Random Variables
+\item Conditional Expectation
+\item Inequalities and Limit Theorems
+\end{itemize}
 \end{document}
