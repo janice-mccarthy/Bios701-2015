@@ -1,0 +1,91 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 9}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+\section{Common Discrete Distributions - Continued}
+Our last common discrete distribution is the \emph{Discrete Uniform} distribution.\\\\
+\begin{defn}
+Let $C$ be a finite set of numbers and let $X$ be a number chosen from $C$ at random (i.e. each number has equal probability of being selected). Then $X$ has the \emph{Discrete Uniform} distribution, written:
+$$X\sim Unif(C)$$
+\end{defn}
+Clearly, the pmf of $X$ is given by:
+$$P(X=x) = \frac1{|C|}$$
+\begin{example}
+Let $C =\left\{1,2,...,10\right\}$ Then
+$$P(X=4) = \frac1{10}$$
+\end{example}
+\section{Cumulative Distribution Function - CDF}
+\begin{defn}
+The CDF of a random variable $X$ is the function:
+$$F(x) = P(X\leq x)$$
+\end{defn}
+\begin{example}
+Let $X\sim Bin(n,p)$.
+$$F(3) = P(X\leq 3) = P(X=0)+P(X=1)+P(X=2)+P(X=3) = \sum_{k=0}^3{n\choose{k}}p^kq^{n-k}$$
+In general, the Binomial CDF is given by:
+$$F(x) = \sum_{k=0}^x {n\choose{k}}p^kq^{n-k}$$
+\end{example}
+CDFs are most useful in the context of \emph{continuous} random variables, so we will state its defining properties here, but we will discuss it further in the continuous context.
+\begin{thm}
+Any CDF, $F$, has the following properties:
+\begin{enumerate}
+\item $F$ is increasing, i.e. if $x_1<x_2$ then $F(x_1)\leq F(x_2)$
+\item $F$ is right-continuous, i.e.
+$$F(a) = \lim_{x\rightarrow a^+} F(x)$$
+\item 
+$$\lim_{x\rightarrow -\infty} F(x) = 0$$
+and
+$$\lim_{x\rightarrow\infty} F(x) = 1$$
+\section{Functions of Random Variables}
+There are many contexts in which we will encounter functions of random variables. For example, we will see them when we define conditional expectation and when we study transformations. It is important to note that functions of random variables \emph{are} random variables!
+\begin{thm}
+Any function $g:\mathbb{R}\rightarrow\mathbb{R}$ of a random variable is a random variable.
+\end{thm}
+\begin{proof}
+A random variable $X$ is a function that takes events in $\mathcal{E}$ and returns a real number. A function $g$ applied to a random variable $X$ is the composition: 
+$$g\circ X:\mathcal{E}\rightarrow \mathbb{R}$$
+\end{proof}
+\end{enumerate}
+\end{thm}
+\end{document}
