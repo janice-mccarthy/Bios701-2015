@@ -1,0 +1,8 @@
+par(mfrow=c(1,1))
+xvals <- seq(-4,4,length=50)
+curve(dnorm(x, mean=0,sd=2),xlim=c(-4,4), main=("P(a < X < b)"),xaxt='n',yaxt='n',xlab="x",ylab="f(x)")
+lines(xvals,dnorm(xvals, mean=0, sd=2),xlim=c(-4,4),new=TRUE)
+xvalsint <- seq(-2,-1,length=50)
+dvalsint <- dnorm(xvalsint, mean=0, sd=2)
+polygon(c(xvalsint,rev(xvalsint)),c(rep(0,50),rev(dvalsint)),col="gray")
+axis(side=1,at=c(-2,-1),labels=c("a","b"))
