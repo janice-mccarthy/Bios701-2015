@@ -99,4 +99,41 @@ As can be inferred from the above definition:\\\\
 \emph{The probability that a continuous random variable takes any single value is ZERO!}\\\\
 Also, the endpoints $a$ and $b$ 'don't matter', in that:
 $$P(a\leq X\leq b) = P(a<X\leq b)= P(a<X<b)= P(a\leq a<b)$$
+
+Recall from calculus that the definite integral of a(n integrable) function $f$ over an interval $[a,b]$ is the area under the curve of the graph of $f$. Thus, if $X$ is a continuous random variable with pdf $f(x)$, we can visualize the probability that $X$ takes a value in the interval $[a,b]$ as shown:\\
+
+\includegraphics[height=3in]{area.pdf}
+
+Now, there are some requirements that a valid probability density must satisfy:\\
+\begin{thm}
+A valid pdf must satisfy:
+\begin{enumerate}
+\item $$f(x) \geq 0$$
+\item $$\int_{-\infty}^\infty f(x) dx = 1$$
+\end{enumerate}
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item If $f(x_0)<0$, then $f(x)<0$ in a neighborhood (interval) around $x_0$, leading to a negative probability.\\
+NOTE: This is the proof as the book states it. This is only true if we assume $f(x)$ is \emph{continuous} at all $x$. Technically, $f$ can be negative at a point $x_0$, so long as that is a point of discontinuity. In other words, $f$ can be negative on a  \emph{discrete} set, because those are points with zero probability.  We won't belabor this point, but it is important (to me!) to be technically correct.
+\item $$\int_{-\infty}^{\infty} f(x) dx = P(-\infty<X<\infty) = 1$$
+\end{enumerate}
+\end{proof}
+Note that any $f$ that satisfies the above is a valid pdf for some random variable.\\\\
+The book has a few examples of continuous distributions that are not among the ones we will focus on (logistic and Rayleigh). 
+\section{Expectation for Continuous Random Variables}
+\begin{defn}
+Let $X$ be a continuous random variable with pdf $f(x)$. The expectation of $X$ is defined to be:
+$$E(X) = \int_{-\infty}^{\infty} x f(x) dx$$
+\end{defn}
+This is analogous to the discrete case, with the sum replaced by an integral. The continuous version of expectation satisfies the same properties as expectation in the discrete case. Namely:
+\begin{itemize}
+\item $E(X)$ is a measure of center
+\item $E(X)$ is linear
+\item For a function $g:\mathbb{R}\rightarrow \mathbb{R}$, 
+$$E(g(X)) = \int_{-\infty}^{\infty} g(x) f(x) dx$$
+\end{itemize} 
+
+We will now examine some common continuous distributions, derive some of their major properties and point out some special facts about each.
+
 \end{document}
