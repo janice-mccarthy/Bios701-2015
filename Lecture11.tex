@@ -1,0 +1,160 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 10}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+
+\section{Important Named Continuous Distributions}
+We will cover several common continuous distributions: the uniform, normal, exponential and gamma distributions and derive some key summary statistics (expecation and variance) for each in terms of their parameters along with some special properties of each and some relationships between distributions.
+\subsection{Uniform Distribution}
+\begin{defn}
+We say that $X$ has the \emph{uniform distribution on the interval $[a,b]$} and write
+$$X\sim Unif(a,b)$$
+$\iff X$ has a constant pdf on the interval $[a,b]$ and is zero otherwise. 
+\end{defn}
+\subsubsection{Probability Density and CDF}
+Now, we know that for a discrete uniform random variable on a finite set of size $n$, the pmf is given by $\frac1n$ for each possible value. What is the constant for a continuous uniform?\\\\
+We need to find $c$, such that $f(x) = c$ on $[a,b]$ and zero otherwise, with 
+$$\int_{-\infty}^{\infty} f(x) dx = 1 $$
+Now, $f$ is zero outside $[a,b]$, so we need:
+$$\int_a^b c dx = 1$$
+Therefore:
+$$\int_a^b c dx = cx\rvert_a^b = c(b-a) = 1$$
+so, $c=\frac{1}{b-a}$.\\\\
+What is the CDF of a continuous uniform random variable? Recall that $F(x)$ is defined to be:
+$$F(x) = P(X\leq x)$$
+Now, we know that 
+$$P(X\leq x) = \int_{-infty}^{x} f(t) dt$$
+for a continuous random variable with pdf $f$. Because $f$ is defined as
+$$f(x) = \left\{\begin{matrix}
+\frac1{b-a} & \textrm { for } a\leq x\leq b\\
+0 & \textrm { otherwise}
+\end{matrix}\right.$$
+we must consider the following cases:
+\begin{enumerate}
+\item $x<a$
+\item $a<x<b$
+\item $x>b$
+\end{enumerate}
+Now, for $x<a$, clearly $F(x) = P(X\leq x) = 0$. For $a\leq X \leq b$, we have:
+$$F(x) = \int_a^x \frac1{b-a} dt = \left.\frac t{b-a}\right\rvert_a^x = \frac{x-a}{b-a}$$  
+For $x=b$, the above yields $1$, so for $x\geq b, F(x) =1$. In summary:
+$$F(x) = \left\{\begin{matrix}
+0 & \textrm{ for } x<a\\
+\frac{x-a}{b-a}& \textrm{ for } a\leq x\leq b\\
+1 & \textrm{ for } x\geq b 
+\end{matrix}\right.$$
+\subsubsection{Special Properties of the Continuous Uniform Distribution}
+\begin{itemize}
+\item If $X\sim Unif(a,b)$, the probability that $X$ falls in any subinterval of $[a,b]$ is proportional to the length of the interval. (The constant of proportionality is $\frac{1}{b-a}$.  
+\item For any sub-interval $[c,d]\subset [a,b]$, the conditional probability
+$$P(X\leq x| x\subset [c,d])$$
+follows a uniform distribution on $[c,d]$.
+\end{itemize}
+\subsubsection{Mean and Variance of a Continuous Uniform Random Variable}
+$$E(X) = \int_{-\infty}^{\infty}xf(x) dx$$
+$$= \int_a^b \frac{x}{b-a}dx = \frac{1}{b-a} \left.\frac{x^2}2 \right\rvert_a^b = 
+\frac12 \frac{b^2-a^2}{b-a} = \frac{a+b}2$$
+Thus, the expectation of a continuous uniform random variable on $[a,b]$ is just the midpoint of the interval $[a,b]$\\\\
+Now, to compute the variance:
+$$Var(X) = E((X-E(X))^2) = E(X^2) - \left(E(X)\right)^2)$$
+and
+$$E(X^2) = \int_{-\infty}^{\infty} x^2 f(x) dx = \int_a^b \frac{x^2}{b-a} dx = \frac1{b-a} \left.\frac{x^3}3\right\rvert_a^b = \frac13 \frac{b^3-a^3}{b-a} = \frac{a^2+ab+b^2}{3}$$ 
+so that = 
+$$Var(X) = \frac{a^2+ab+b^2}{3} - \left(\frac{a+b}2\right)^2 = \frac{\left(a-b\right)^2}{12}$$
+Note: We are skipping universality, percentiles and scale and location in favor of moving on to the normal distribution. We will cover all of these topics at a later time (scale and location coming soon!)
+\subsection{Normal Distribution}
+We will first define the \emph{standard normal} distribution, but later we'll see the general case.
+\begin{defn}
+A continuous random variable $Z$ has the standard normal distribution if the pdf of $Z$ is given by:
+$$\varphi(z) = \frac1{\sqrt{2\pi}} e^{\frac{-z^2}2} \textrm{ for } -\infty <z<\infty$$
+\end{defn}
+If $Z$ is a standard normal random variable, we write
+$$Z\sim N(0,1)$$
+We will see in a moment that $0$ is the mean and $1$ is the variance. The CDF is given by:
+$$\Phi(z) = \int_{-\infty}^{z}\varphi(t) dt =  \frac1{\sqrt{2\pi}}\int_{-\infty}^{z} e^{-\frac{t^2}{2}} dt \textrm{ for } -\infty <z<\infty$$
+Note that when defining the CDF, we use a 'dummy variable' (here it is $t$) of integration. This may be a new concept for some - the expression:
+$$\int_{-\infty}^z f(t) dt$$
+is a \emph{function of $z$}. We are integrating over the variable $t$. This can be thought of as summing over an index. When we sum:
+$$\sum_{i=0}^n i = \frac{n(n-1)}2$$
+The sum does not depend on the index $i$ - it depends on the \emph{limit} $n$.\\\\
+Another very important note: There is no closed form for $\Phi(z)$!! That is because there is no closed form anti-derivative of $e^{-x^2}$.
+\subsubsection{Special Properties of the Standard Normal}
+The standard normal distribution has the following special properties:
+\begin{itemize}
+\item $$\varphi(z) = \varphi(-z)$$
+In other words, the pdf of the standard normal is an \emph{even} function.
+\item $$\Phi(z) = 1- \Phi(-z)$$
+To see this, consider:
+$$\Phi(-z) = \int_{-\infty}^{-z} \varphi(t) dt$$
+We make the substitution:
+$$u = -t \textrm{ and } du = -dt$$
+which leads to:
+$$\Phi(-z) = -\int_{\infty}^{z} \varphi(u) du$$
+Note that the change in sign on the limits of integration arises from the substitution. If $t=-u$, then the limits $t=-\infty$ and $t=-z$ transform to $u=\infty$ and $u=z$. Also, we have used the fact that $\varphi(z)$ is even. Next we use:
+$$-\int_a^b f(x) dx = \int_b^a f(x) dx$$
+so that 
+ $$\Phi(-z) = -\int_{\infty}^{z} \varphi(u) du = \int_{z}^{\infty} \varphi(u) du$$
+Because
+$$1 = \int_{-\infty}^\infty \varphi(u) du = \int_{-\infty}^z \varphi(u) du + \int_{z}^\infty \varphi(u) du $$
+which yields
+$$\int_{z}^\infty \varphi(u) du = 1 - \int_{-\infty}^z \varphi(u) du = 1-\Phi(z)$$
+\item If $Z\sim N(0,1)$, then so is $-Z$.
+\end{itemize}
+We will now show that the standard normal pdf is indeed a valid pdf. We want to show:
+$$\frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-\frac{z^2}2} dz = 1$$
+But we just said that there is no closed form antiderivative for $e^{-z^2}$ - so how can we compute this??\\\\
+Trick: add a dimension. First consider the product:
+$$\left(\frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-\frac{z^2}2} dz\right)\cdot \left(\frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-\frac{z^2}2} dz\right) = \left(\frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-\frac{x^2}2} dx\right)\cdot \left(\frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-\frac{y^2}2} dy\right)$$
+Because the two variables $x$ and $y$ are independent of each other, we can write this as a double integral:
+$$\left(\frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-\frac{x^2}2} dx\right)\cdot \left(\frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-\frac{y^2}2} dy\right) = \frac1{{2\pi}} \int_{-\infty}^{\infty} e^{-\frac{x^2+y^2}2} dx dy$$
+And now we transform the integral using polar coordinates. Recall:
+$$x= r\cos(\theta) \textrm{ and } y= r\sin(\theta)$$
+and
+$$r = \sqrt{(x^2+y^2)} \textrm{ and } dxdy = r dr d\theta$$
+The factor of $r$ comes from the transformation of variables formula. (It is the Jacobian determinant, if anyone is interested). Now, transforming the integrand and the limits of integration yields:
+$$ \frac1{{2\pi}} \int_{-\infty}^{\infty} e^{-\frac{x^2+y^2}2} dx dy =  \frac1{{2\pi}} \int_{0}^{2\pi}  \int_{0}^{\infty} e^{-\frac{r^2}2} r dr d\theta$$
+The integral becomes a simple $u$-substitution:
+$$ u = \frac{r^2}2 \textrm{ and } du = r dr$$
+$$ \frac1{{2\pi}} \int_{0}^{2\pi}  \int_{0}^{\infty} e^{-\frac{r^2}2} r dr d\theta =  \frac1{{2\pi}} \int_{0}^{2\pi}  \int_{0}^{\infty} e^{-u} du d\theta = =  \frac1{{2\pi}} \int_{0}^{2\pi}  \left.-e^{-u}\right\rvert_0^{\infty} d\theta =  \frac1{{2\pi}} \int_{0}^{2\pi} d\theta = 1$$
+\end{document}
