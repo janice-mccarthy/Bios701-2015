@@ -1,0 +1,113 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 10}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+
+\section{Important Named Continuous Distributions - Continued}
+\subsection{Standard Normal Distribution - Continued}
+\subsubsection{Mean and Variance of a Standard Normal Random Variable}
+Recall that the standard normal pdf is given by:
+$$\varphi(z) = \frac1{sqrt{2\pi}}e^{-\frac{z^2}2}$$
+Thus
+$$E(Z) = \int_{-\infty}^{\infty}z\varphi(z) dz$$
+Now, we could compute this integral using substitution, but the easiest way is just to note that if $\varphi(z)$ is an even function, multiplying it by the odd function $z$ results in an odd function. The integral of an odd function over an interval symmetric about $0$ is just 0, so we obtain:
+$$E(Z) = 0$$ 
+Now, to compute the variance:
+$$Var(X) = E((X-E(X))^2) = E(X^2) - \left(E(X)\right)^2)$$
+and
+$$E(Z^2) = \int_{-\infty}^{\infty} z^2 \varphi(z) dz = \frac1{\sqrt{2\pi}}\int_{-\infty}^{\infty} z^2e^{-\frac{z^2}2} $$
+The integrand is even, so:
+
+$$ \frac1{\sqrt{2\pi}}\int_{-\infty}^{\infty} z^2e^{-\frac{z^2}2} =  \frac2{\sqrt{2\pi}}\int_{0}^{\infty} z^2e^{-\frac{z^2}2} $$
+Now, we cannot compute this integral using a change of variable. However, we can use integration by parts. Recall:
+$$\int u dv = uv - \int v du$$
+To choose how to assign $u$ and $dv$, we note that we know how to integrate $ze^{-z^2/2}$. That makes it a good choice for $dv$. So we give it a try:
+$$u=z \textrm{ and } du=dz$$
+$$dv = ze^{-z^2/2}dz \textrm{ so that } v = -e^{-z^2/2}$$
+Thus:
+$$E(Z^2) =  \frac2{\sqrt{2\pi}}\int_{0}^{\infty} z^2e^{-\frac{z^2}2} = \frac{-2}{\sqrt{2\pi}} \left.z e^{-\frac{z^2}2}\right\rvert_0^\infty + \frac2{\sqrt{2\pi}}\int_{0}^{\infty} e^{-\frac{z^2}2}$$
+Now, the first term on the right hand side is zero. At the lower limit, it evaluates to zero. At the upper limit, we must compute the limit at infinity. This is zero by L'H\^opital's rule. We are left with the second term. Note that the integral is equivalent to integrating the standard normal density over all $z$, which yields $1$.\\\\
+Thus:
+$$Var(Z) = E(Z^2) = \left(E(Z)\right)^2 = E(Z^2) = 1$$
+\subsection{The Normal Distribution}
+In general, a normal random variable has the density:
+$$f(x) = \frac1{\sqrt{2\pi}\sigma} e^{\frac{\left(x-\mu\right)^2}{2\sigma^2}}$$
+If a random variable $X$ has this density, we write $X\sim N(\mu,\sigma^2)$. Usually, we define the normal density in general, and then specialize to the case where $\mu = 0$ and $\sigma^2=1$. The textbook takes a different approach: It defines the standard normal, and then defines the general normal as a transformation, i.e.:
+$$X = \mu + \sigma Z$$
+The two are equivalent, but as we are putting off talk on transformations at the moment, we will think of the standard normal as a special case of the general normal. Let's compute $E(X)$ and $Var(X)$.
+\subsubsection{Mean and Variance of the Normal Distribution}
+$$E(X) = \frac1{\sqrt{2\pi}\sigma} \int_{-\infty}^{\infty}x e^{\frac{\left(x-\mu\right)^2}{2\sigma^2}}$$
+We can compute this integral easily, using the substitution:
+$$u=\frac{x-\mu}{\sigma} \textrm{ and } dx=\sigma du$$
+We obtain:
+$$\frac1{\sqrt{2\pi}\sigma} \int_{-\infty}^{\infty}(\sigma u + \mu)e^{-\frac{u^2}2} \sigma du = \frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty}u e^{-\frac{u^2}2} \sigma du + \frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty}\mu e^{-\frac{u^2}2}du$$
+The first integral on the right hand side is zero (it is the expectation of the standard normal - also it is an odd integral over $(-\infty,\infty)$). The second integral on the right is just the standard normal density, integrated over the whole real line, times a constant $\mu$. Thus:
+$$E(X) = \mu$$
+Now to compute the variance:
+$$Var(X) = E\left((X-E(X))^2\right) = E(X^2) - \left(E(X)\right)^2$$
+We compute the first term on the right:
+$$E(X^2) = \frac1{\sqrt{2\pi}\sigma} \int_{-\infty}^{\infty}x^2 e^{\frac{\left(x-\mu\right)^2}{2\sigma^2}}$$
+Once again, we use the substitution:
+$$x= \sigma u + \mu \textrm { and } dx = \sigma du$$
+So that:
+$$E(X^2) = \frac1{\sqrt{2\pi}\sigma} \int_{-\infty}^{\infty}(\sigma u + \mu)^2 e^{-\frac{u^2}{2}}\sigma du =  \frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty}(\sigma u + \mu)^2 e^{-\frac{u^2}{2}} du$$
+Expanding:
+$$E(X^2) =  \frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty}\sigma^2 u^2 e^{-\frac{u^2}{2}} du +  \frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty}2\sigma u \mu e^{-\frac{u^2}{2}} du+  \frac1{\sqrt{2\pi}} \int_{-\infty}^{\infty}\mu^2 e^{-\frac{u^2}{2}} du = \sigma^2+\mu^2$$
+which gives us:
+$$Var(X) =\sigma^2+\mu^2 - \mu^2 = \sigma^2$$ 
+Thus, if $X\sim N(\mu,\sigma^2)$, $X$ is a normal random variable with mean $\mu$ and variance $\sigma^2$. Note that while in general, the mean and variance of a distribution is a \emph{function} of parameters, not every distribution have parameters that are \emph{equal} to their mean and variance.\\\\
+Note that for any $X\sim N(\mu,\sigma^2)$, we may \emph{standardize}:
+$$Z = \frac{X-\mu}{\sigma}$$
+to obtain the standard normal. This is a special property of $\mu$ and $\sigma$ that is shared by certain classes of parameters. In particular, $\mu$ is called a \emph{location} parameter and $\sigma^2$ is called a \emph{scale} parameter. Location parameters shift the position of a distribution on the horizontal axis. Scale parameters scale the entire distribution without affecting the shape or location of the distribution. More formally:
+\begin{defn}
+$\eta$ is called a location parameter for the distribution of $X$, if the CDF has the form:
+$$F(x;\eta) = F_0(x-\eta)$$
+Similarly, for the pdf:
+$$f(x;\eta) = f_0(x-\eta)$$.
+$\theta$ is called a scale parameter for the distribution of $X$ if the CDF has the form:
+$$F(x,\theta) = F_0\left(\frac{x}{\theta}\right)$$
+Similarly for the pdf:
+$$f(x;\theta) = f_0\left(\frac{x}{\theta}\right)$$
+\end{defn}
+\end{document}
