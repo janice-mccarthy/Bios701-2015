@@ -1,0 +1,148 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Lecture 13}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+
+\section{Important Named Continuous Distributions - Continued}
+\subsection{Exponential Distribution}
+Recall that the geometric distribution is the discrete distribution that describes the probability of $X=x$ Bernoulli trials to achieve the first success. The exponential distribution is the continuous analog of the geometric distribution. Let $\lambda >0$ be the success rate, so that the \emph{average} number of successes in a given amount of time $t$ is $\lambda t$. (The \emph{actual} number of successes is random.)
+\begin{defn}
+We say that a continuous random variable $X$ has the exponential distribution with parameter $\lambda$ if $X$ has the pdf:
+$$f(x) =\left\{\begin{matrix}
+\lambda e^{-\lambda x} &\textrm{ for } x>0\\
+0&\textrm{ otherwise}
+\end{matrix}\right.$$
+\end{defn}
+Note that there is an alternative parametrization for the exponential distribution. Some sources may write $X\sim Exp(\theta)$ with pdf
+
+$$f(x) =\left\{\begin{matrix}
+\frac{1}{\theta} e^{-\frac{x}{\theta}} &\textrm{ for } x>0\\
+0&\textrm{ otherwise}
+\end{matrix}\right.$$
+
+Here, the parameter $\theta$ is thought of as 'average time to first success'. Clearly, $\lambda = \frac1\theta$.\\\\
+The CDF of an exponential random variable with parameter $\lambda$ is given by:
+$$F(x) = \int_{-\infty}^{x} f(t)dt =  \int_{0}^{x} \lambda e^{-\lambda x} = \left.-e^{-\lambda t}\right\rvert_0^x = 1-e^{-\lambda x}$$ 
+\subsubsection{Mean and Variance of an Exponential Random Variable}
+$$E(X) = \int_{-\infty}^{\infty}x f(x) dx = \int_0^\infty x \lambda e^{-\lambda x} dx$$
+This integral requires integration by parts. Noting that if $u = x$, then $du=dx$ and we need only integrate $e^{-\lambda x}$, we choose:
+$$u = x \textrm{ and } du = dx$$
+$$dv = \lambda e^{-\lambda x} dx \textrm{ so that } v = -e^{-\lambda x}$$
+$$\int_0^\infty x \lambda e^{-\lambda x} dx = \left.-xe^{-\lambda x}\right\rvert_0^\infty + \int_0^\infty e^{-\lambda x} dx = \left.\frac{-1}{\lambda} e^{-\lambda x} \right\rvert_0^\infty = \frac1\lambda$$
+So the expected value is the average time until a success! Let's compute the variance:
+$$Var(X) = E\left((X-E(X))^2\right) = E(X^2) - \left(E(X)\right)^2$$
+First we find:
+$$E(X^2) =  \int_{-\infty}^{\infty}x^2 f(x) dx = \int_0^\infty x^2 \lambda e^{-\lambda x} dx$$
+Once again, we use integration by parts:
+$$u = x^2 \textrm{ and } du = 2x dx$$
+$$dv = \lambda e^{-\lambda x} dx \textrm{ so that } v = -e^{-\lambda x }$$
+Thus: 
+$$E(X^2) = \left.-x^2e^{-\lambda x}\right\rvert_0^\infty + 2 \int_0^\infty x \lambda e^{-\lambda x} dx = 0 + \frac{2E(X)}{\lambda} = \frac2{\lambda^2}$$
+and so:
+$$Var(X) = E(X^2)  -  \left(E(X)\right)^2 = \frac2{\lambda^2} - \frac1{\lambda^2} = \frac1{\lambda^2}$$
+\subsubsection{Special Properties of the Exponential Distribution}
+\begin{defn}
+A random variable $X$ has the \emph{no memory} property if its distribution satisfies the  following:
+$$P(X\geq s+t|X>s) = P(X\geq t)$$
+\end{defn}
+In words, this means that the distribution has no memory of the event $X>s$. Recall that the discrete geometric distribution has this property. We now show that the exponential distribution also has no memory.
+\begin{thm}
+The exponential distribution has the no memory property.
+\end{thm}
+\begin{proof}
+Let $X \sim Exp(\lambda)$ and let $F$ denote the CDF of $X$. Using the definition of conditional probability,
+$$P(x\geq s+t|X\geq s) = \frac{P(X\geq s+ t)}{P(X\geq s)} = \frac{1-F(s+t)}{1-F(s)} = \frac{e^-\lambda(s+t)}{e^{-\lambda s}} = e^{-\lambda t} = P(X\geq t)$$
+\end{proof}
+It turns out, the converse is true - so the no memory property completely characterizes the exponential distribution (as a continuous distribution)!
+\begin{thm}
+If $X$ is a positive, continuous random variable with no memory, then $X\sim Exp(\lambda)$.
+\end{thm}
+There is a nice proof of this in the book that involves a very simple differential equation. Interested students should have a look!\\\\
+Another special property of the exponential distribution is its relationship to the Poisson distribution, via something called a 'Poisson Process'. First, we will describe exactly what a Poisson process is, and then we will see how it is related to the exponential distribution.
+\paragraph{Poisson Processes}
+Consider a recurring event, such as calls coming in to a service center, customers entering a store, or even a physical phenomenon like defects along a stretch of wire. Define the (discrete) random variable $X(t)$ to be the number of events in the time interval (or length interval, in the case of the wire) $[0,t]$. Assume the following:
+\begin{enumerate}
+\item The probability of an event occurring in the interval $[t,t+\Delta t] = \lambda \Delta t$, for $\Delta t$ "small". This means that the probability of an event within an interval does not depend upon the location of that interval. 
+\item Occurrence of events in non-overlapping intervals are independent and the probability of $2$ or more events occurring in $[t,t+\Delta t]$ is negligibly small.
+\end{enumerate} 
+If these assumptions are true as $\Delta t \rightarrow 0$, then the recurring event is called a Poisson Process. Note that the random variable $X(t) \sim Pois(\lambda t)$ (for fixed $t$).\\\\
+How is this related to the exponential distribution? As we noted, the random variable $X(t) = $ number of events in a time period $[0,t]$ is $Pois(\lambda t)$. Let's define a different random variable on the same process. I.e., define $T =$ the time until the first occurrence. What is the distribution of $T$?\\\\
+As is often the case, it is easier to work with the complement. We note that the event that $T\geq t$ is equivalent to the case where no event has happened in time $t$. That is:
+$$P(T\geq t) = P(X(t) = 0) = \frac{e^{-\lambda t} \left(\lambda t\right)^0}{0!} = e^{-\lambda t}$$
+so that
+$$P(T\leq t) = 1 - e^{-\lambda t}$$
+In other words, $T \sim Exp(\lambda)$.\\\\
+\paragraph{Minimum of Independent Exponential Random Variables}
+Another interesting fact about exponential random variables is that it is easy to find the distribution of their minimum.
+\begin{thm}
+Let $X_1,...,X_n$ be independent, with $X_j\sim Exp(\lambda_j)$. Define:$$L = \min(X_1,...X_n)$$
+Then $L\sim Exp(\lambda_1+...+\lambda_n)$.
+\end{thm}
+\begin{proof}
+$$P(L>t) = P(\min(X_1,...,X_n)>t) = P(X_1>t \textrm{ and } X_2>t ... \textrm{ and } X_n>t) = P(X_1>t)...P(X_n>t)$$
+$$ = e^{-\lambda_1 t}\cdots e^{-\lambda_n t} = e^{-(\lambda_1+...+\lambda_n)t}$$
+\end{proof}
+Note that several times in this section, we have used $P(X>x)$. This function has a name: the \emph{survival function}. It is often denoted $S(x)$ (or $S(t)$, as it usually concerns time) and it is related to the CDF, $F(x)$. Namely $S(x) = 1-F(x)$. 
+\subsection{The Gamma Distribution}
+The gamma distribution is the last of the major continuous distributions we will cover in detail. It involves a famous function called the gamma function.
+\begin{defn}
+The gamma function, denoted $\Gamma(\kappa)$ is defined to be:
+$$\Gamma(\kappa) = \int_0^{\infty} t^{\kappa -1} e^{-t} dt \textrm{ for } \kappa >0$$
+\end{defn}
+Note that 
+$$\Gamma(1)= \int_0^\infty e^{-t} dt = 1$$
+Gamma has some other convenient properties:
+\begin{enumerate}
+\item $$\Gamma(\kappa) = (\kappa-1)\Gamma(\kappa) \textrm{ for } \kappa >1$$
+\item $$\Gamma(n) = (n-1)! \textrm{ for } n=1,2,3,...$$
+\item $$\Gamma(\frac12) = \sqrt{\pi}$$
+\end{enumerate}
+We won't prove these properties, but you can find proofs on the interwebs or in other textbooks. (Or you can ask me!) Now we can define the gamma distribution.
+\begin{defn}
+A continuous random variable $X$ has the gamma distribution with parameters $\kappa>0$ and $\theta>0$ if its pdf has the form:
+$$f(x;\lambda,\kappa) = \frac{\lambda^\kappa} {\Gamma(\kappa)}x^{\kappa-1} e^{-\lambda x}$$
+\end{defn}
+Note: in class, I used the $\frac1\theta$ parametrization. These are equivalent - just substitute $\frac1\theta = \lambda$. Both parametrizations are common, and you will encounter both.
+Note that $Gam(\lambda, 1) = Exp(\lambda)$, so that the exponential distribution is a special case of the gamma distribution. Another special case is $\chi^2$.
+\end{document}
