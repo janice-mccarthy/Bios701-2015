@@ -141,7 +141,8 @@ Gamma has some other convenient properties:
 We won't prove these properties, but you can find proofs on the interwebs or in other textbooks. (Or you can ask me!) Now we can define the gamma distribution.
 \begin{defn}
 A continuous random variable $X$ has the gamma distribution with parameters $\kappa>0$ and $\theta>0$ if its pdf has the form:
-$$f(x;\lambda,\kappa) = \frac{\lambda^\kappa} {\Gamma(\kappa)}x^{\kappa-1} e^{-\lambda x}$$
+$$f(x;\lambda,\kappa) = \left\{\begin{matrix}
+\frac{\lambda^\kappa}{\Gamma(\kappa)}x^{\kappa-1} e^{-\lambda x} & \textrm{ for } x>0\\0&\textrm{ otherwise}\end{matrix}\right.$$
 \end{defn}
 Note: in class, I used the $\frac1\theta$ parametrization. These are equivalent - just substitute $\frac1\theta = \lambda$. Both parametrizations are common, and you will encounter both.
 Note that $Gam(\lambda, 1) = Exp(\lambda)$, so that the exponential distribution is a special case of the gamma distribution. Another special case is $\chi^2$.
