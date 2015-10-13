@@ -1,0 +1,177 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+
+\title{Introduction to Probability Theory - Summary of Continuous Distributions}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+
+\section{Summary of Continuous Distributions}
+These are facts that about the four continuous distributions we have studied in detail that you are expected to know. In addition, given a pdf (\emph{not necessarily from this list}), you will be expected to compute the CDF, expectation and variance using the definitions.
+\subsection{Uniform Distribution}
+\begin{itemize}
+\item Notation: $X\sim Unif(a,b)$
+
+\item Standard Properties
+
+\begin{minipage}{3in}
+\begin{itemize}[label=$\star$]
+\item pdf $$f(x;a,b) = \left\{\begin{matrix}
+\frac{1}{b-a}& \textrm{for } a<x<b\\ 0&\textrm {otherwise}
+\end{matrix}\right.$$
+\item CDF $$F(x;a,b) = \left\{\begin{matrix}
+0&\textrm{for } x<a\\ \frac{x-a}{b-a} & \textrm{for } a\leq x\leq b\\1&\textrm{for } x>b
+\end{matrix}\right.$$
+\end{itemize}
+\end{minipage}
+\hspace{1in}
+\begin{minipage}{3in}
+\begin{itemize}[label=$\star$]
+\item Mean $$\frac{a+b}2$$
+\item Variance $$\frac{(b-a)^2}{12}$$
+\item Standard Form: $Unif(0,1)$
+\end{itemize}
+\end{minipage}
+\item Special Properties
+\begin{itemize}[label=$\star$]
+\item For any subinterval $[c,d]\subset [a,b]$, $P(c\leq X\leq d) \propto d-c$. In other words, the probability that $X$ falls in any subinterval of $[a,b]$ is proportional to the length of the interval.
+\item For any subinterval $[c,d]\subset [a,b]$, $P(X\leq x|c\leq X\leq d)$ is a uniform distribution.
+\item Universality - we are postponing discussion of this property until we cover transformations.
+\end{itemize}
+
+\end{itemize}
+
+\subsection{Normal Distribution}
+\begin{itemize}
+\item Notation: $X\sim N(\mu,\sigma^2)$
+
+\item Standard Properties
+
+\begin{minipage}{3.5in}
+\begin{itemize}[label=$\star$]
+\item pdf $$f(x;\mu,\sigma) = \frac1{\sqrt{2\pi}\sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}} \textrm{ for } -\infty<x<\infty$$
+\item CDF $$F(x;\mu\sigma) = \frac1{\sqrt{2\pi}\sigma} \int_{-\infty}^{x}e^{-\frac{(t-\mu)^2}{2\sigma^2}} dt \textrm{ for } -\infty<x<\infty$$
+There is no closed form for this CDF.
+\end{itemize}
+\end{minipage}
+\hspace{1in}
+\begin{minipage}{2.5in}
+\begin{itemize}[label=$\star$]
+\item Mean $$\mu$$
+\item Variance $$\sigma^2$$
+\item Standard Form: $N(0,1)$. Can standardize a general normal $X$ with mean $\mu$ and variance $\sigma^2$ via $Z=\frac{X-\mu}{\sigma}$
+\end{itemize}
+\end{minipage}
+\item Special Properties
+\begin{itemize}[label=$\star$]
+\item There are special names for the standard normal pdf and CDF, namely $\varphi(z)$ and $\Phi(z)$.
+\item The standard normal pdf is an even function: $\varphi(-z) = \varphi(z)$
+\item Tail symmetry: $\Phi(-z) = 1-\Phi(z)$.
+\item If $Z\sim N(0,1)$, so is $-Z$.
+\item Related to $Bin(n,p)$. As $n\rightarrow \infty$ with $np=\mu$ fixed, the binomial distribution converges to a normal distribution with mean $\mu = np$ and variance $\sigma^2 = np(1-p)$ (or $npq$).
+\end{itemize}
+
+\end{itemize}
+\subsection{Exponential Distribution}
+\begin{itemize}
+\item Notation: $X\sim Exp(\lambda)$
+
+\item Standard Properties
+
+\begin{minipage}{3.5in}
+\begin{itemize}[label=$\star$]
+\item pdf $$f(x;\lambda) = \left\{\begin{matrix}
+\lambda e^{-\lambda x}& \textrm{for } x>0\\ 0&\textrm {otherwise}
+\end{matrix}\right.$$
+\item CDF $$F(x;\lambda) = \left\{\begin{matrix}
+0&\textrm{for } x\leq 0\\ 1-\lambda e^{-\lambda x}& \textrm{for } x>0
+\end{matrix}\right.$$
+\end{itemize}
+\end{minipage}
+\hspace{1in}
+\begin{minipage}{3in}
+\begin{itemize}[label=$\star$]
+\item Mean $$\frac1\lambda$$
+\item Variance $$\frac1{\lambda^2}$$
+\item Standard Form: $Exp(1)$.
+\end{itemize}
+\end{minipage}
+\item Special Properties
+\begin{itemize}[label=$\star$]
+\item No memory: $P(X\geq s+t|X\geq s)=P(X\geq t)$. $Exp(\lambda)$ is the only continuous distribution with the no memory property.
+\item $Exp(\lambda)$ is the continuous version of the geometric distribution.
+\item $Exp(\lambda)$ is related to the Poisson distribution via Poisson Processes.
+\item $Exp(\lambda) = Gam(\lambda,1)$.
+\end{itemize}
+\end{itemize}
+\subsection{Gamma Distribution}
+\begin{itemize}
+\item Notation: $X\sim Gam(\lambda,\kappa)$
+
+\item Standard Properties
+
+\begin{minipage}{3.5in}
+\begin{itemize}[label=$\star$]
+\item pdf $$f(x;\lambda,\kappa) = \left\{\begin{matrix}
+\frac{\lambda^\kappa}{\Gamma(\kappa)}x^{\kappa-1} e^{-\lambda x}& \textrm{for } x>0\\ 0&\textrm {otherwise}
+\end{matrix}\right.$$
+\item CDF is only available in closed form for $\kappa$ a (positive) integer.
+ $$F(x;\lambda,n) = \left\{\begin{matrix}
+0&\textrm{for } x\leq 0\\ 1-\sum_{i=0}^{n-1}\frac{\left(\lambda x\right)^i}{i!}\lambda e^{-\lambda x}& \textrm{for } x>0
+\end{matrix}\right.$$
+\end{itemize}
+\end{minipage}
+\hspace{1in}
+\begin{minipage}{3in}
+\begin{itemize}[label=$\star$]
+\item Mean $$\frac\kappa\lambda$$
+\item Variance $$\frac\kappa{\lambda^2}$$
+\item Standard Form: $Gam(1,\kappa)$.
+\end{itemize}
+\end{minipage}
+\item Special Properties
+\begin{itemize}[label=$\star$]
+\item $Gam(\lambda,1) = Exp(\lambda)$.
+\item $Gam(2,\nu/2) = \chi^2_\nu$
+\end{itemize}
+\end{itemize}
+\end{document}
