@@ -1,0 +1,153 @@
+
+\documentclass{article}
+\usepackage{amsmath}
+
+\oddsidemargin=0in
+\evensidemargin=0in
+\textwidth=6.3in
+\topmargin=-.5in
+\textheight=9in
+
+\parindent=0in
+\pagestyle{empty}
+
+\input{testpoints}
+
+\begin{document}
+
+
+% ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+%                             COVER
+% ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo 
+
+\centerline{\huge \bf Midterm 1}        %%%(number of test)
+\vfill \vfill
+   
+Biostat 701                               %%%(class number and section) 
+
+10/21/2015 \hfill                             %%%(date of test)
+{\bf Name: } $\underbrace{\hspace{2.7in}}_{\mbox{\tiny by writing my 
+                                           name i swear by the honor code}}$
+\vfill \vfill \vfill
+
+{\bf Read all of the following information before starting the exam:}
+\vspace{1pc}
+
+\begin{itemize}                        %%%(change info. as desired)
+	\item  Show all work, clearly and in order, if you want to get full
+	credit.  I reserve the right to take off points if I cannot see how you 
+	arrived at your answer (even if your final answer is correct).
+	
+	\item Justify your answers algebraically whenever possible to ensure 
+	full credit. 
+		
+	\item  This test has 5 problems  %%%(number of problems)
+	and is worth 100 points,           %%%(insert total number of points)  
+	plus some extra credit at the end. 
+	
+	\item  Good luck!
+\end{itemize}
+
+\vfill \vfill \vfill
+
+\clearpage
+
+% problem with three parts
+
+\begin{problem}{3}
+Provide the name and pmf/pdf of the distribution of the following variables:
+\begin{enumerate}
+\item $X = $ number of independent $Bern(p)$ trials to obtain the first success.
+\item $X = $ number of successes in $n$ independent $Bern(p)$ trials.
+\item $X = $ number of independent $Bern(p)$ trials to obtain $r$ successes.
+\end{enumerate}
+\end{problem}
+\begin{problem}{5}
+Consider the following discrete function:
+$$f(n) = \left\{
+\begin{matrix}
+ \frac{c}{n^3}& \textrm{ for } n=0,1,2,3,...\\
+  0 &\textrm{ otherwise }
+\end{matrix}\right.$$
+
+Is there a value of $c$ that makes $f$ a valid pmf?
+\end{problem}
+
+
+\begin{problem}{20}
+Consider the following (piece-wise) continuous function:
+$$f(x) = \left\{
+\begin{matrix}
+ \frac{c}{x^4}& \textrm{ for } x>1\\
+  0 &\textrm{ otherwise }
+\end{matrix}\right.$$
+\vspace{1pc}
+
+\newpart{10}
+Find the value of $c$ that makes this a valid pdf.
+\vspace{1pc}
+
+\newpart{10}
+Find the CDF of a random variable $X$ with pdf given by $f$.
+\end{problem}
+
+\begin{problem}{20}
+Let $X \sim \mathcal{N}(\mu,\sigma^2)$.  
+\vspace{1pc}
+
+\newpart{10}
+Given that the $98^{th}$ percentile of the standard normal distribution is $z_{0.98} = 2.05$, compute the $98^{th}$ percentile of $X$, in terms of $\mu$ and $\sigma$.
+\vspace{1pc}
+
+\newpart{5}
+Give an expression that represents the probability that $a<X<b$, for $a,b$ real numbers.
+\vspace{1pc}
+
+\newpart{5}
+What is the probability that $X=\mu$?
+\end{problem}
+\vspace{1pc}
+
+\begin{problem}{12}
+Let $X$ and $Y$ be independent random variables with mean and variance $\mu_X,\sigma_X^2$ and $\mu_Y$ and $\sigma_Y^2$ respectively. Let
+$$W= 4-2Y +3$$
+\vspace{1pc}
+
+\newpart{5}
+Compute $E(W)$.
+\vspace{1pc}
+
+\newpart{7}
+Compute $Var(W)$.
+
+\end{problem}
+
+\begin{problem}{20}
+Let $X \sim Unif(\left\{0,1,2,...,n\right\})$. Compute the mean and variance of $X$. \\\\
+
+Note that:
+$$\sum_{i=1}^n i = \frac{n(n+1)}2$$
+$$\sum_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}6$$
+
+\end{problem}
+
+
+\begin{problem}{20}
+My gmail filter divides my email messages into 'Inbox', 'Social' and 'Promotions' (thank you, Google!). I estimate that 50\% of my messages are filtered into my Inbox, 20\% go into Social (no thank you, Facebook) and 30\% go into Promotions (go away, Macy's). I notice that about 90\% of the emails in Promotions contain the word 'free', whereas about 1\% of the messages in Inbox and 2\% of the messages in Social contain the word 'free'. A message comes in with the word 'free'. What is the probability that the message is filtered as Promotion?    
+\vspace{1pc}
+\end{problem}
+
+% ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+%                         BONUS & SURVEY
+% ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+{\large \bf Bonus Question (2 Extra Credit Points):}
+\vspace{1pc}
+
+BONUS QUESTION  
+\vspace{1pc}
+Give the R code for generating $1000$ samples from a normal distribution with mean $1$ and variance $2$, and computing the first sample moment.
+\showpoints
+\end{document}
+
+
