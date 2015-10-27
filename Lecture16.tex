@@ -1,0 +1,89 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+\date{}
+\title{Introduction to Probability Theory - Lecture 15}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+
+\section{Summaries of Distributions and Moments}
+At this point, we have seen several examples of common distributions, both in the discrete and continuous cases. Often, we wish to consider certain properties of a distribution - ones that characterize it to some point, but do not completely characterize the distribution. For example, we have already seen the mean and variance. Many (wildly different) distributions may have the same mean and variance. Still, these values tell us \emph{something} about the distribution. In particular, the mean gives us a measure of \emph{center} and the variance gives us a measure of \emph{spread}.\\\\
+\subsection{Additional Measures of Center}
+In addition to the mean, there are a couple of other measures of the center (or the point that the probability is somehow 'balanced' around). \\
+
+\begin{defn}
+The \emph{median} of a  distribution its $50^{th}$ percentile, or equivalently: $m$ is the median of the distribution of a random variable $X$ $\iff$
+$$P(X\leq m)\geq \frac12 \textrm{ and } P(X\geq m)\geq\frac12$$
+\end{defn}
+The second alternative definition is 'clunky', because we'd like to say the median $m$ is the point such that $F(m) = \frac12$, where $F$ is the CDF of $X$. But the CDF may not be continuous so that could give us trouble. We won't trouble ourselves too much with that - so the first definition is fine.\\\\
+Another measure of center is a \emph{mode} of a distribution.\\
+\begin{defn}
+A \emph{mode} of a distribution is a value $c$ where its pmf/pdf is at a maximum. I.e.
+$$\left\{c:f(c)\geq f(x) \textrm{ for all } x\right\}$$ 
+\end{defn}
+ Note that while the mean and median are unique values for a particular distribution, there can be many modes. \\\\
+We won't use the mode for much in this class, so let's look at the mean versus the median in terms of which is a 'better' measure of center:\\\\
+\begin{thm}
+The value of $c$ that minimizes 
+$$E((X-c)^2)$$
+is $c=\mu$ where $\mu = E(X)$. The value of $c$ that minimizes
+$$E(|X-c|)$$
+is $c=m$ where $m$ is the median.
+\end{thm}
+There is a proof of this theorem in the book. Interested parties should read it! The important point is that 'better' can depend on the situation - the mean minimizes the average squared error - the median minimizes the average absolute error.\\\\
+\paragraph{Estimators vs. Parameters/Properties of Distributions}
+There is a fundamental and important difference between the \emph{population} values of the mean, median, mode, variance, etc. and the mean, median, mode, variance, etc. of a \emph{sample}. What we have defined above are properties of the underlying 'true' distribution of a population. \\\\
+For example, suppose we want to know the average height of undergraduate students at Duke. We might randomly select (perhaps using records from the registrar) $100$ students and contact them and ask for their height. We take the average. That is the \emph{sample} mean. If we randomly select another $100$ students and take the mean, we would almost surely get a different value. In fact, \emph{the sample mean is a random variable!} \\\\
+On the other hand, there is a 'true' mean, which we could obtain by taking the heights of \emph{all} Duke undergrads and averaging them. This value would not change if we repeated the process - in other words, \emph{the population mean is NOT random}.\\\\
+Now, of course the sample and population values are related: in statistics we \emph{estimate} the population values from a sample and in many cases, we may make inference about how close we believe those sample values are to the true values. The question of which measures are 'best' in this sense will be addressed in 704.
+\subsection{Moments}
+As pointed out above, the summary measures we have defined may be the same for some \emph{very} different distributions. We can actually find a collection of summaries of a distribution, and if we consider all of them (an infinite number), they completely determine the distribution. These are called 'moments':\\\\
+\begin{defn}
+Let $X$ be a random variable with mean $\mu$ and variance $\sigma^2$. 
+\begin{enumerate}
+\item The $n^{th}$ moment (about zero) of $X$ is given by $E(X^n)$.
+\item The $n^{th}$ central moment (or moment about the mean) is $E((X-\mu)^n)$
+\item The $n^{th}$ standardized moment is given by $E(\left(\frac{X-\mu}{\sigma}\right)^n$
+\end{enumerate}
+\end{defn} 
+
+Note that the first moment about zero is the mean and the second moment about the mean is the variance.
+\end{document}
