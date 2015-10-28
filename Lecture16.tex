@@ -85,5 +85,42 @@ Let $X$ be a random variable with mean $\mu$ and variance $\sigma^2$.
 \end{enumerate}
 \end{defn} 
 
-Note that the first moment about zero is the mean and the second moment about the mean is the variance.
+Note that the first moment about zero is the mean and the second moment about the mean is the variance. The third and fourth moments also have special names and interpretations.\\\\
+\begin{defn}
+The third standardized moment 
+$$E(\left(\frac{X-\mu}{\sigma}\right)^3)$$
+is called the \emph{skew} of a distribution.
+\end{defn}
+Of course, skew is related to symmetry:
+\begin{defn}
+A random variable has a distribution that is symmetric about its mean $\mu$ $\iff$
+$$X-\mu \textrm{ and } \mu-X$$
+have the same distribution. This is equivalent to 
+$$f(\mu-x) = f(\mu+x)$$
+where $f$ is the pdf of $X$.
+\end{defn}
+A distribution that is not symmetric is skew.\\\\
+Note: If a distribution is symmetric about some value $\mu$, that value must be $E(X)$, if it exists. ($\mu$ is also the median in this case.)
+\paragraph{Aside About Tails and Existence of Moments}
+It is important to note that a valid pdf can have an infinite expectation or variance. For example, consider:
+$$f(x) =\left\{\begin{matrix}\frac{1}{x^2} & x>1\\0&\textrm{otherwise}\end{matrix}\right.$$
+We can easily see that this is a valid pdf. Clearly, it is strictly positive. 
+Also,
+$$\int_1^\infty \frac{1}{x^2}dx = \left.\frac{-1}{x}\right\rvert_1^\infty = 1$$
+The CDF is
+$$\int_1^x \frac1{t^2}dt = 1-\frac1{x} x>1$$
+and is valid and continuous. The expectation:
+$$E(X) = \int_1^\infty x \frac1{x^2}dx = \int_1^\infty \frac1{x}dx$$
+which diverges. The variance and all higher moments also diverge, by similar computation. We say that such a distribution has 'fat tails'. In other words, the distribution doesn't decay very rapidly at the tails. Rapidly decaying tails result in the existence of higher moments.
+\paragraph{End of Aside}
+
+
+\begin{thm}
+If a random variable $X$ has a symmetric distribution,
+$$E(\left(X-\mu\right)^n) = 0 \textrm{ for } n \textrm{ odd}$$
+\end{thm}
+
+This theorem is proved in the text. A consequence of this theorem is that any odd moment detects skewness
+
+
 \end{document}
