@@ -1,0 +1,107 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+\date{}
+\title{Introduction to Probability Theory - Lecture 19}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+
+\section{Joint Distributions}
+Our next major topic in probability is joint distributions. Rather than looking simply at the behavior of one random variable, we consider the joint behavior of two or more random variables. As usual, we will first consider the discrete case, but soon we will encounter jointly distributed continuous random variables - this will be time to recall (mostly pretty basic) multivariate calculus!\\\\
+Our first definition actually applies to both the discrete and continuous cases, but the details of calculation are different:
+
+\begin{defn}
+The joint CDF of two random variables $X$ and $Y$ is defined to be:
+$$F_{XY}(x,y) = P(X\leq x, Y\leq y)$$
+\end{defn}
+
+As is the case with single discrete random variables, the pmf is often easier to use, as it gives us probability directly:
+
+\begin{defn}
+The joint pdf of two discrete random variables $X$ and $Y$ is the function 
+$$f_{XY}(x,y) = P(X=x,Y=y)$$
+\end{defn}
+Of course, this needs to be a valid pmf, so
+\begin{itemize}
+\item $f_{XY}(x,y)\geq 0 \textrm{ for all } x,y$
+\item $$\sum_x\sum_y P(X=x,Y=y) = 1$$
+\end{itemize}
+
+Although there may be some dependence between $X$ and $Y$, we may sometimes be concerned with one variable only, regardless of the other. In that case, we want the \emph{marginal} distribution of the variable of interest.\\\\
+\begin{defn}
+For two discrete random variables $X$ and $Y$, the marginal distribution of $X$ is related to the joint distribution of $X$ and $Y$ via:
+$$f_X(x) = P(X=x) = = \sum_y P(X=x,Y=y) = \sum_y f_{XY}(x,y)$$
+In other words, we can find the marginal distribution of $X$ by summing the joint distribution of $X$ and $Y$ over all possible values of $Y$.
+\end{defn}
+\begin{example}
+Consider the following contingency table of two jointly distributed Bernoulli random variables:\\\\
+
+
+\begin{tabular}{lc|c|c|c}
+&$X_1$&0&1&\\
+\hline
+$X_2$&0&20&30&50\\
+\hline
+&1&40&10&50\\ 
+\hline
+&&60&40&100\\ 
+\end{tabular}
+
+If we want to know $P(X_1=0)$, we can compute:
+$$P(X_1=0) = P(X_1=0,X_2=0) + P(X_1=0,X_2=1) = \frac{20}{100} + \frac{40}{100} = \frac{60}{100}$$
+Note that these are the probabilities in the \emph{margins} of the table. (That's where the name comes from!)
+\end{example}
+Another important distribution that is related to the joint distribution of two random variables is called the 'conditional' distribution. Recall our definition of conditional probability for events:\\\\
+$$P(A|B) = \frac{P(A\cap B}{P(B)}$$
+We have the same definition for random variables and their pmfs:\\\\
+\begin{defn}
+Let $X$ and $Y$ be discrete random variables. The conditional pmf of $Y$ given $X=x$ is:
+$$P(Y=y|X=x) = \frac{P(X=x,Y=y)}{P(X=x)}$$
+We will use the notation:
+$$f_{Y|X}(y) = \frac{f_{XY}(x,y)}{f_X(x)}$$
+which is the ratio of the joint pmf to the marginal pmf of $X$. Note that we usually consider this as a function of $y$, for some fixed value of $x$.
+\end{defn}
+\subsection{Bayes Rule and LOTP}
+We can write a version of Bayes Rule and LOTP in terms of conditional and marginal pmfs. Bayes rule is:
+$$f_{Y|X}(y) = \frac{f_{X|Y}(x) f_Y(y)}{f_X(x)}$$
+and the LOTP is:
+$$f_X(x) = \sum_y f_{X|Y})x) f_Y(y)$$ 
+\end{document}
