@@ -81,14 +81,14 @@ Let $X$ be a random variable with mean $\mu$ and variance $\sigma^2$.
 \begin{enumerate}
 \item The $n^{th}$ moment (about zero) of $X$ is given by $E(X^n)$.
 \item The $n^{th}$ central moment (or moment about the mean) is $E((X-\mu)^n)$
-\item The $n^{th}$ standardized moment is given by $E(\left(\frac{X-\mu}{\sigma}\right)^n$
+\item The $n^{th}$ standardized moment is given by $E\left(\left(\frac{X-\mu}{\sigma}\right)^n\right)$
 \end{enumerate}
 \end{defn} 
 
 Note that the first moment about zero is the mean and the second moment about the mean is the variance. The third and fourth moments also have special names and interpretations.\\\\
 \begin{defn}
 The third standardized moment 
-$$E(\left(\frac{X-\mu}{\sigma}\right)^3)$$
+$$E\left(\left(\frac{X-\mu}{\sigma}\right)^3\right)$$
 is called the \emph{skew} of a distribution.
 \end{defn}
 Of course, skew is related to symmetry:
@@ -120,7 +120,59 @@ If a random variable $X$ has a symmetric distribution,
 $$E(\left(X-\mu\right)^n) = 0 \textrm{ for } n \textrm{ odd}$$
 \end{thm}
 
-This theorem is proved in the text. A consequence of this theorem is that any odd moment detects skewness
+This theorem is proved in the text. A consequence of this theorem is that any odd moment detects skewness. Why do we use the third? One reason is that higher moments may not exist (if the tails of the distribution do not decay rapidly enough). As the tails of a distribution are important properties, there is a measure of how heavy or how long the tails of a distribution are:\\\\
+\begin{defn}
+The \emph{kurtosis} of a random variable $X$ is 
+$$\mathrm{kurt}(X) = E\left(\left(\frac{X-\mu}{\sigma}\right)^4\right) - 3$$
+\end{defn}
+The '3' in the definition comes from the fourth moment of the standard normal - i.e. the kurtosis of a distribution is measured \emph{relative to the normal}. Large kurtosis means heavy tails, a high peak and 'low shoulders'. \\\\
+The next topic in the book is on sample moments. We will skip this for now, and move on to how we can more easily calculate the moments of a distribution.
+\subsection{Moment Generating Functions} 
+\begin{defn}
+The moment generating function (MGF) of a random variable $X$ is
+$$M_X(t) = E(e^{tX})$$
+if this is finite on an open interval $(-a,a)$ (i.e. an interval containing zero), otherwise the MGF does not exist. 
+\end{defn}
 
+Note: $M_X(0) = 1$, for any valid MGF. (Why?)\\
 
+The following theorem gives us a nice way of computing moments:\\
+
+\begin{thm}
+The $n^{th}$ moment about zero of a random variable $X$ is given by:
+$$E(X^n) = M_X^{(n)}(0)$$
+where $M_X^{(n)}(0)$ is the $n^{th}$ derivative of $M_X(t)$ evaluated at $t=0$. 
+\end{thm}
+
+\begin{proof}
+Recall that the Taylor expansion of a function $f(x)$ about $x=x_0$ is given by:
+$$f(x) = \sum_{n=0}^\infty \frac{f^{(n)}(x_0)}{n!} \left(x-x_0\right)^n$$
+If we expand about $x_0 = 0$, we obtain:
+$$f(x) = \sum_{n=0}^\infty \frac{f^{(n)}(0)}{n!}x^n$$
+So, if we expand $M_X(t)$ about $t=0$, we have:
+\begin{equation}\label{MGFseries} M_X(t) = \sum_{n=0}^\infty M_X^{(n)}(0) \frac{t^n}{n!} \end{equation}
+Now, going back to the original definition of $M_X(t)$, we have:
+$$M_X(t) = E(e^{tX})$$
+But we can also write $e^{tX}$ as a series, by noting:
+$$e^y = \sum_{n=0}^\infty \frac{y^n}{n!}$$
+and substituting $y=tX$. We obtain:
+$$M_X(t) = E(e^{tX}) = E\left(\sum_{n=0}^\infty \frac{(tX)^n}{n!}\right) = E\left(\sum_{n=0}^\infty \frac{X^nt^n}{n!}\right) = \sum_{n=0}^\infty E\left(\frac{X^nt^n}{n!}\right) =  \sum_{n=0}^\infty E\left(X^n\right)\frac{t^n}{n!}$$
+Setting the above result equal to \eqref{MGFseries}, we see:
+$$\sum_{n=0}^\infty M_X^{(n)}(0) \frac{t^n}{n!} = \sum_{n=0}^\infty E\left(X^n\right)\frac{t^n}{n!}$$
+Now, if we equate the coefficients of $t^n$, we obtain:
+$$M_X^{(n)}(0) = E(X^n)$$
+\end{proof}
+
+This is an important theorem, because it means we can find moments using \emph{differentiation}, rather than integration. Here is a second theorem that makes our lives easier!
+
+\begin{thm}
+If $X$ and $Y$ are independent, then:
+$$M_{X+Y}(t) = M_X(t)M_Y(t)$$
+\end{thm}
+\begin{proof}
+This is a simple consequence of a property of the exponential function and the expecation of a product of independent variables:
+$$M_{X+Y}(t) = E\left(e^{t(X+Y)}\right) = E\left(e^{tX}e^{tY}\right)$$
+Because $X$ and $Y$ are independent:
+$$E\left(e^{tX}e^{tY}\right) = E\left(e^{tX}\right)E\left(e^{tY}\right) = M_X(t)M_Y(t)$$
+\end{proof}
 \end{document}
