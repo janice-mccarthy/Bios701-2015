@@ -1,0 +1,112 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+\date{}
+\title{Introduction to Probability Theory - Lecture 17}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+
+\section{Moment Generating Functions (MGF's)}
+Recall from last time that the moment generating function (MGF) of a random variable $X$ is
+$$M_X(t) = E(e^{tX})$$
+(provided that this is defined on some interval containing zero).\\\\
+Note that the MGF is an \emph{expectation} of a function of a random variable. It is a function of the (non-random) variable $t$. Therefore, the MGF is a \emph{function} - not a random variable!
+
+We note the following facts about the MGF:
+
+\begin{enumerate}
+\item \label{deriv} We can compute the $n^{th}$ moments of a random variable using:
+$$\left.M_X^{(n)}(t)\right\rvert_{t=0} = E(X^n)$$
+
+\item  \label{MGFU} The MGF completely determines the distribution of a random variable. I.e., if
+$$M_X(t) = M_Y(t)$$
+on some interval (no matter how small!), then $X$ and $Y$ have the same distribution.
+
+\item \label{indep} If $X$ and $Y$ are independent, then
+$$M_{X+Y}(t) = M_X(t)M_Y(t)$$  
+\end{enumerate}
+We proved \eqref{deriv} and \eqref{indep} last time. The proof of \eqref{MGFU} requires more advanced analysis that is beyond our scope.
+
+\subsection{MGFs of Some Common Distributions}
+In this section, we will compute the MGFs for some of our core distributions, and use them to compute the mean and variance.
+\subsubsection*{Bernoulli}
+Let $X\sim Bern(P)$. Then
+$$E\left(e^{tX}\right) = e^{t\cdot 0}\left(1-p\right) + e^{t\cdot 1} p = (1-p) + pe^t = pe^t + q$$
+What is E(X)?\\\\
+$$E(X) = \left.\frac{d}{dt}M_X(t)\right\rvert_{t=0} = \left. p e^t\right\rvert_{t=0} = p$$
+The variance is:
+$$Var(X) = E(X^2) - \left(E(X)\right)^2$$
+The MGF gives:
+$$E(X^2) =  \left.\frac{d^2}{dt^2}M_X(t)\right\rvert_{t=0} =  \left.\frac{d}{dt}pe^t\right\rvert_{t=0}\left. p e^t\right\rvert_{t=0} = p$$
+So that 
+$$Var(X) = p - p^2 = p(1-p) = pq$$
+where $q=1-p$
+\subsubsection*{Binomial}
+Let $X\sim Bin(n,p)$. Because $X$ counts the number of successes out of $n$ independent $Bern(p)$ trials, if $Y\sim Bern(p)$, then
+$$X = \sum_{k=0}^n Y$$
+Using property \eqref{indep} of the MGF, we can write:
+$$M_X(t) = M_{\sum_{k=0}^n Y}(t) = \left (pe^t + q\right)^n$$
+We can use this to compute $E(X)$:
+$$E(X)=  \left.\frac{d}{dt}M_X(t)\right\rvert_{t=0} = n \left (pe^t + q\right)^{n-1}pe^t = n \left(p + q\right)^{n-1}p = np$$ 
+To compute the variance, we first find
+$$E(X^2) = \left.\frac{d^2}{dt^2}M_X(t)\right\rvert_{t=0} = \left.\frac{d}{dt}  n \left (pe^t + q\right)^{n-1}pe^t\right\rvert_{t=0}$$
+$$ = np\left[(n-1)(pe^t+q)^{n-2}\cdot pe^t\cdot e^t + (pe^t+q)^{n-1}e^t\right]$$
+$$= np\left[(n-1)(p+q)^{n-2}\cdot p + (p+q)^{n-1}\right] = np\left[(n-1)p + 1\right] = np\left[(np -p + 1\right] = np\left[np+1\right] = \left(np\right)^2 + npq$$
+Thus,
+$$Var(X) = E(X^2) - \left(E(X)\right)^2 = \left(np\right)^2 + npq - \left(np\right)^2 = npq$$
+\subsubsection*{Poisson}
+Let $X\sim Pois(\lambda)$. Recall that the pmf of $X$ is:
+$$f(x;\lambda) = \left\{\begin{matrix}
+\frac{e^{-\lambda}\lambda^x}{x!} & x=0,1,2,...\\
+0&\textrm{otherwise}
+\end{matrix}\right.$$
+$$E(e^{tx}) = \sum_{x=0}^\infty \frac{e^{tx} e^{-\lambda}\lambda^x}{x!} = e^{-\lambda} \sum_{x=0}^\infty \frac{\left(\lambda e^t\right)^x}{x!} = e^{-\lambda}e^{\lambda e^t} = e^{\lambda(e^t-1)} \textrm{ for } -\infty<t<\infty$$
+Now, we can compute $E(X)$:
+
+$$E(X) = \left.\frac{d}{dt} \left(e^{\lambda(e^t-1)}\right)\right\rvert_{t=0} = e^{\lambda(e^t-1)}\cdot \lambda e^t$$
+Note that we may write the last expression as:
+$$\left.M_X(t) \cdot \lambda e^t\right\rvert_{t=0} = M_X(0)\lambda e^0 = \lambda$$
+Now, $E(X^2)$:
+$$E(X^2) = \left.\frac{d^2}{dt^2}M_X(t)\right\rvert_{t=0} = \left.\frac{d}{dt}\left(M_X(t)\cdot\lambda e^t\right)\right\rvert_{t=0}$$
+$$= \left.\left[M_X'(t)\lambda e^t + M_X(t)\lambda e^t\right]\right\rvert_{t=0} = M_X'(0)\lambda e^0 +M_X(0)\lambda e^0 = \lambda^2 + \lambda$$
+So that 
+$$Var(X) = E(X^2) - \left(E(X)\right)^2 = \lambda^2 + \lambda - \lambda^2 = \lambda$$
+\end{document}
