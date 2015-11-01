@@ -1,0 +1,107 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+\date{}
+\title{Introduction to Probability Theory - Lecture 18}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+
+\section{Moment Generating Functions (MGF's) - Continued}
+
+\subsection{MGFs of Some Common Distributions - Continued}
+We will derive the MGFs of the exponential and the normal distribution and use them to compute \emph{all} the moments of these two distributions.
+\subsubsection*{Exponential}
+Let $X\sim Exp(\lambda)$.
+Recall that the pdf of $X$ is:
+$$f(x;\lambda) = \left\{\begin{matrix}
+\lambda e^{-\lambda x} & x>0\\
+0&\textrm{otherwise}
+\end{matrix}\right.$$
+$$E(e^{tx}) = \int_{x=0}^\infty  e^{tx}\lambda e^{-\lambda x} dx = \lambda  \int_{x=0}^\infty  e^{x(t-\lambda} dx = \left.\frac{\lambda}{\lambda -t} e^{x(t-\lambda}\right\rvert_0^\infty \textrm{ for } t<\lambda = \frac{\lambda}{\lambda - t} \textrm{ for } |t|<\lambda$$
+Now, we can compute $E(X)$:
+
+$$E(X) = \left.\frac{d}{dt}M_X(t)\right\rvert_{t=0}\left.\frac{d}{dt}\frac{\lambda}{\lambda - t} \right\rvert_{t=0} = \left.\frac{\lambda}{(\lambda - t)^2}\right\rvert_{t=0} = \frac1\lambda$$
+
+Now, $E(X^2)$:
+$$E(X^2) = \left.\frac{d^2}{dt^2}M_X(t)\right\rvert_{t=0} = \left.\frac{d}{dt}\left(\frac{\lambda}{(\lambda - t)^2}\right)\right\rvert_{t=0} = \left.\frac{2\lambda}{(\lambda - t)^3}\right\rvert_{t=0} = \frac2\lambda^2$$
+
+So that 
+$$Var(X) = E(X^2) - \left(E(X)\right)^2 = \frac2\lambda^2 - \frac1\lambda^2 = \frac1\lambda^2$$
+In fact, if we keep taking derivatives:
+$$E(X^n) =\left.\frac{d^n}{dt^n}M_X(t)\right\rvert_{t=0} = \frac{n!}{\lambda^n}$$
+I.e. we can calculate \emph{all} the moments of $X$! We can also do this for the normal distribution.
+\subsubsection*{Standard and General Normal MGFs}
+Rather than compute the MGF for an $N(\mu,\sigma^2)$ random variable, we will first compute the MGF of the standard normal and then use a location-scale transformation to obtain the MGF of a general normal. This will require the following proposition:
+\begin{prop}
+If $X$ has MGF $M_X(t)$, then the MGF of $a+bX$ is given by:
+$$M_{a+bX} = e^{at}M_X(bt)$$
+\end{prop}
+\begin{proof}
+$$M_{a+bX} = E\left(e^{t(a+bX)}\right) = E\left(e^{at}\cdot e^{tbX}\right) = e^{at} E\left(e^{tbX}\right) = e^{at} M_X(bt)$$  
+\end{proof}
+Note that for \emph{any} random variable with finite mean and variance $\mu$ and $\sigma^2$, we can transform that random variable to a variable with zero mean and variance 1 via:
+$$Z=\frac{X-\mu}{\sigma}$$
+This works regardless of the distribution of $X$ (so long as the mean and variance are finite). In particular, $X$ need not be normally distributed.\\\\
+Now, lets compute the MGF of the standard normal:
+$$E(e^{tz}) = \frac1{\sqrt{2\pi}}\int_{-\infty}^\infty e^{tz} e^{-\frac{z^2}{2}} dz = \frac1{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-\frac{z^2}{2}+tz} dz$$ 
+We cannot find an antiderivative in closed form, so we attempt a 'trick'. Note that:
+$$-\frac{(z-t)^2}{2} = \frac{-z^2+2tz -t^2}{2} = \frac{-z^2}{2} + tz - \frac{t^2}2$$
+So:
+$$\frac{-z^2}{2} + tz = \frac{-z^2}{2} + tz -\frac{t^2}{2} +\frac{t^2}{2} = -\frac{(z-t)^2}{2} +\frac{t^2}{2}$$
+Back to the integral:
+$$\frac1{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-\frac{z^2}{2}+tz} dz = \frac1{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-\frac{(z-t)^2}{2}+\frac{t^2}{2}} dz = \frac1{\sqrt{2\pi}}\int_{-\infty}^\infty e^{\frac{t^2}{2}} e^{-\frac{(z-t)^2}{2}} dz$$
+
+$$= e^{\frac{t^2}{2}}\cdot\underbrace{\left(\frac1{\sqrt{2\pi}}\int_{-\infty}^\infty  e^{-\frac{(z-t)^2}{2}} dz\right)}_{\text{pdf of an N(t,1) random variable }} = e^{\frac{t^2}{2}}$$ 
+
+Now we can apply the location-scale transformation to $X\sim N(\mu,\sigma^2)$.
+$$M_X(t) = M_{\mu + \sigma Z}(t) = e^{\mu t} e^{\sigma^2 t^2/2}$$
+
+
+Finally, we will compute the moments of a standard normal, using the MGF:
+$$M_Z(t) = e^{t^2/2}$$
+We could simply differentiate this function $n$ times and evaluate at $t=0$ to find the $n^{th}$ moment - but it is easier if we use the Taylor series for the exponential and do a little algebra:
+$$e^{t^2/2} = \sum_{k=0}^\infty \frac{t^{2k}}{2^k k!}$$
+This looks a bit like the even terms of a Taylor series, except that we need the factorial in the denominator to match the power of $t$. Therefore, we multiply numerator and denomiator by $(2k)!$
+$$M_Z(t) = \sum_{k=0}^\infty \frac{t^{2k}}{2^k k!} = \sum_{k=0}^\infty \frac{t^{2k}(2k)!}{2^k k!(2k)!} = \sum_{k=0}^\infty \frac{t^{2k}}{(2k)!}\underbrace{\left[\frac{(2k)!}{2^k k!}\right]}_{\text{coefficent of the even terms}}$$
+What we see above is that the Taylor series for $M_Z(t)$ has coefficient $\frac{(2k)!}{2^k k!}$ for the even terms and the odd terms vanish. Thus:
+$$E(Z^n) =  \frac{(2k)!}{2^k k!} \textrm{ for } n = 2k$$
+and the odd moments vanish. We actually already knew that the odd moments must vanish (recall that \emph{all} odd moments vanish for \emph{any} symmetric distribution. But now we know all the even moments!
+\end{document}
