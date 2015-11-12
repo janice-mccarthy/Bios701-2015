@@ -1,0 +1,62 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+
+\makeatletter
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+\date{}
+\title{Introduction to Probability Theory - Lecture 20}
+%----------------------------------------------------------------------------------------
+
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+\begin{document}
+\maketitle
+
+\section{Joint Distributions - Continued}
+Recall from last time, we defined the CDF, joint, marginal and conditional pmfs for jointly distributed discrete random varibles:
+\begin{itemize}
+\item joint pmf: $$f_{XY}(x,y) = P(X=x,Y=y)$$
+\item joint CDF: $$F_{XY}(x,y) = P(X\leq x,Y\leq y) = \sum_{s\leq x}\sum_{t\leq y} f_{XY}(s,t)$$
+\item marginal pmf of $X$:
+$$f_X(x) = \sum_y f_{XY}(x,y)$$
+and similarly, the marginal pmf of $Y$ is
+$$f_{Y}(y) = \sum_x f_{XY}(x,y)$$  
+\end{itemize}
+
+We can write a version of Bayes Rule and LOTP in terms of conditional and marginal pmfs. Bayes rule is:
+$$f_{Y|X}(y) = \frac{f_{X|Y}(x) f_Y(y)}{f_X(x)}$$
+and the LOTP is:
+$$f_X(x) = \sum_y f_{X|Y})x) f_Y(y)$$ 
+\end{document}
