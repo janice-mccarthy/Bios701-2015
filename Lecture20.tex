@@ -54,9 +54,19 @@ $$f_X(x) = \sum_y f_{XY}(x,y)$$
 and similarly, the marginal pmf of $Y$ is
 $$f_{Y}(y) = \sum_x f_{XY}(x,y)$$  
 \end{itemize}
-
-We can write a version of Bayes Rule and LOTP in terms of conditional and marginal pmfs. Bayes rule is:
+And we wrote downa version of Bayes Rule and LOTP in terms of conditional and marginal pmfs. Bayes rule is:
 $$f_{Y|X}(y) = \frac{f_{X|Y}(x) f_Y(y)}{f_X(x)}$$
 and the LOTP is:
-$$f_X(x) = \sum_y f_{X|Y})x) f_Y(y)$$ 
+$$f_X(x) = \sum_y f_{X|Y})x) f_Y(y)$$
+\subsection{Independence}
+\begin{defn}
+Two random variables $X$ and $Y$ are independent $\iff$ 
+$$F_{XY}(x,y) = F_x(x)F_Y(y)$$
+where $F_X(x)$ and $F_Y(y)$ are the marginal CDFs for $X$ and $Y$. An equivalent statement is that the joint pmf/pdf factors into the product of the marginals:
+$$f_{XY}(x,y) = f_X(x)f_Y(y)$$
+\end{defn} 
+Note: we will see in some examples that it is not enough for $f_{XY}(x,y)$ to factor into two functions, one a function of $x$ and the other a function of $y$. This is because the variables may have a dependence based on the \emph{support} of the pmf/pdf.
+\subsection{Examples of Discrete Joint Distributions}
+We will consider two examples of multivariate discrete distributions: The exended hypergeometric distribution and the multinomial. As you may guess from the names, these are generalizations of the hypergeometric and binomial distributions.
+\subsubsection{Extended }
 \end{document}
