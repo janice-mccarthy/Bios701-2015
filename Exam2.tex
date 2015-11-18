@@ -1,0 +1,150 @@
+
+\documentclass{article}
+\usepackage{amsmath}
+
+\oddsidemargin=0in
+\evensidemargin=0in
+\textwidth=6.3in
+\topmargin=-.5in
+\textheight=9in
+
+\parindent=0in
+\pagestyle{empty}
+\newcommand{\pdf}[2]{\left\{\begin{matrix}
+{#1} & {#2}\\\\\\0&\textrm{otherwise}
+\end{matrix}\right.}
+\newcommand{\infi}{\int_{-\infty}^\infty}
+
+\input{testpoints}
+
+\begin{document}
+
+
+% ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+%                             COVER
+% ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo 
+
+\centerline{\huge \bf Midterm 1}        %%%(number of test)
+\vfill \vfill
+   
+Biostat 701                               %%%(class number and section) 
+
+11/18/2015 \hfill                             %%%(date of test)
+{\bf Name: } $\underbrace{\hspace{2.7in}}_{\mbox{\tiny by writing my 
+                                           name i swear by the honor code}}$
+\vfill \vfill \vfill
+
+{\bf Read all of the following information before starting the exam:}
+\vspace{1pc}
+
+\begin{itemize}                        %%%(change info. as desired)
+	\item  Show all work, clearly and in order, if you want to get full
+	credit.  I reserve the right to take off points if I cannot see how you 
+	arrived at your answer (even if your final answer is correct).
+	
+	\item Justify your answers algebraically whenever possible to ensure 
+	full credit. 
+		
+	\item  This test has 5 problems  %%%(number of problems)
+	and is worth 100 points,           %%%(insert total number of points)  
+	plus some extra credit at the end. 
+	
+	\item  Good luck!
+\end{itemize}
+
+\vfill \vfill \vfill
+
+\clearpage
+
+% problem with three parts
+
+\begin{problem}{20}
+Let $\sim Exp(\lambda)$.
+\vspace{1pc}
+
+\newpart{10}
+
+Compute the moment generating function for $X$.
+\vspace{1pc}
+
+\newpart{10}
+
+Use the MGF in part a to compute the mean and variance of $X$.
+\vspace{1pc}
+
+\end{problem}
+\begin{problem}{15}
+Let $X_1,X_2$ be continuous random variables with joint pdf 
+$$f(x_1,x_2) = \pdf{4x_1x_2}{0<x_1<1 \textrm{ and } 0<x_2<1}$$
+
+\vspace{1pc}
+
+\newpart{10}
+Compute the marginal pdfs of $X_1$ and $X_2$.
+
+\vspace{1pc}
+
+\newpart{5}
+Are $X_1$ and $X_2$ independent? Why or why not?
+
+\end{problem}
+
+
+\begin{problem}{25}
+Let $X,Y \sim BVN$.
+
+\vspace{1pc}
+
+\newpart{15}
+Define all the relevant parameters and write the joint pdf of $X$ and $Y$
+
+\vspace{1pc}
+
+\newpart{5}
+
+Let $Z\sim N(0,1)$. True or False: $X,Y,Z \sim MVN$.
+
+\vspace{1pc}
+
+\newpart{5}
+
+Let $W\sim N(\mu_w,\sigma^2_w)$ and suppose that $corr(X,W) = corr(Y,W) = 0$. What is the pdf of $X,Y,W$?
+ 
+\end{problem}
+
+\begin{problem}{20}
+Let $X_1,X_2$ be i.i.d $Exp(1)$. Consider the transformation:
+$$Y_1 = X_1 - X_2$$
+$$Y_2 = X_1 + X_2$$
+
+Find $f_{Y_1Y_2}(y_1,y_2)$. Don't forget to specify the support! (Consider the support of $x_1,x_2$ and transform to make a statement about the bounds on $y_1,y_2$. 
+\end{problem}
+
+\vspace{1pc}
+
+\begin{problem}{20}
+Consider the 'seed example' from class: A triangular area of land is under observation. The probability that an airborne seed lands anywhere in the region is modeled by a uniform distribution on the region. I.e.,$0<x<2$ and $0<y<x/2$. In class, we computed 
+$$f_{Y|x}(y) = \pdf{\frac2{x}}{0<y<\frac{x}2}$$  
+and the marginals are:\\
+$$f_X(x) = \pdf{\frac{x}2}{0<x<2}$$
+$$f_Y(y) = \pdf{2(1-y)}{0<y<1}$$
+\vspace{1pc}
+
+\newpart{10}
+What is the random variable $E(Y|X)$?
+\vspace{1pc}
+
+\newpart{10}
+Compute $E(E(Y|X))$.
+
+\end{problem}
+
+
+% ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+%                         BONUS & SURVEY
+% ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+\showpoints
+\end{document}
+
+
