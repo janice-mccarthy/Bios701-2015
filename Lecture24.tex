@@ -1,0 +1,113 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+\usepackage{scrextend}
+\makeatletter
+\newcommand{\infi}{\int_{-\infty}^\infty}
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+\date{}
+\title{Introduction to Probability Theory - Lecture 24}
+%----------------------------------------------------------------------------------------
+\newcommand{\pdf}[2]{\left\{\begin{matrix}
+{#1} & {#2}\\\\\\0&\textrm{otherwise}
+\end{matrix}\right.}
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+%\pgfplotsset{compat=1.12}
+\begin{document}
+\maketitle
+
+\section{Conditional Expectation}
+Our next major topic for the course is conditional expectation. Recall that in the discrete case, the expected value of a random variably $Y$ is given by:
+$$E(Y) = \sum_y u P(Y=y) = \sum_y y f(y)$$
+where the sum is over all $y$ and $f$ is the pmf of $Y$. This may be seen as a 'weighted sum' of the values of $y$, all weighted by their probability of occurring.  Now, recall conditional probability, i.e. the probability that $Y$ takes the value $y$, given that some event $A$ has occurred is:
+$$P(Y=y|A) = \frac{P(Y=y \cap A)}{P(A)}$$
+We think of conditioning on the event $A$ as reducing the sample space to $A$, and we re-normalize to get a valid probability. Then, $P(Y=y|A)$ is a probability in its own right. It is natural then, to consider the expected value of $Y$, given that $A$ has occurred. We define:
+$$E(Y|A) = \sum_y P(Y=y|A)$$
+In other words, we take the weighted sum of the $Y$ values, this time weighted by the \emph{conditional} probability that $A$ has occurred.\\\\
+The textbook has an entire section on 'conditioning on events', but we are really interested in formulating conditional expectation in terms of random variables. I will not lecture on that section, but feel free to read it, if you find it helps!\\\\
+\subsection{Conditional Expectation as a Random Variable}
+We have defined the conditional expectation of a random variable $Y$ given an \emph{event} $A$ has occurred. The first step to extending conditional expectation to a random variable is simply to note that for a random variable $X$, we can consider the \emph{event} that $X=x$.  Thus, or definition of conditional expectation applies readily to:
+$$E(Y|X=x) = \sum_y y P(Y=y|X=x)$$
+Note that in the continuous case, we simply  have:
+$$E(Y|X=x) = \infi y f_{Y|x}(y) dy$$
+Now comes the tricky part. If we think of the above expression for some fixed value of $x$. We sum over all values of $Y$ and get a number. BUT - we can let the values of $x$ vary! Then we get a \emph{function} of $x$. (NOTE: this is NOT a random variable. Yet.)\\\\
+Let's write:
+$$g(x) = E(Y|X=x)$$
+Now, because $g$ is a \emph{function}, we can transform the random variable $X$ using this function, obtaining $g(X)$. This IS a random variable! Let's capture this in a definition:
+\begin{defn}
+Let $X$ and $Y$ be random variables and let
+$$g(x) = E(Y|X=x)$$
+The conditional expectation of $Y$ given $X$ is the random variable:
+$$E(Y|X) = g(X)$$
+\end{defn}
+Note: because $E(Y|X)$ is a random variable, we can also consider such quantities as $E(E(Y|X))$ and $Var(E(Y|X))$.\\\\
+\begin{example}
+An airborne seed can land at random anywhere within a triangular region defined by $0<x<2$ miles and $0<y<x/2<1$ miles, as shown.
+
+\begin{tikzpicture}
+  \begin{axis}[ 
+    xlabel=$x$,
+    ylabel={$y$},xmin=0,xmax=2.5,ymin=0,ymax=1.5
+  ] 
+    \addplot[samples=700,thick,domain=0:2] {x/2} node[above] {$y=x/2$};
+    \addplot[samples=700,thick,domain=0:1] ({2},{x}); 
+  \end{axis}
+\end{tikzpicture} 
+
+Suppose the probability that the seed lands anywhere in the triangle is uniform, i.e. the pdf of $(X,Y)$ is $f(x,y) = c$. Clearly, $c$ must be the area of the triangle (so the pdf integrates to 1, so $c=1$. We will compute the conditional pdf, the conditional expectation of $Y$ given the even $X=x$ and the random variable $E(Y|X)$.\\\\
+The conditional pdf is:
+$$f_{Y|x} = \frac{f(x,y)}{f_X(x)}$$
+We know that the joint distribution is uniform, so we need to compute the marginal $f_X(x)$.\\
+$$f_X(x) = \infi f(x,y) dy = \pdf{\int_0^{x/2} dy}{0<x<2} = \pdf{\frac{x}{2}}{0<x<2}$$
+
+We don't need it for this example, but let's calculate the marginal in $y$ just for practice:
+
+$$f_Y(y) = \infi f(x,y) dy = \pdf{\int_{2y}^{2} dx}{0<y<1} = \pdf{2(y-1)}{0<y<1}$$
+
+Now, the conditonal pdf is given by:
+
+$$f_{Y|x} = \frac{f(x,y)}{f_X(x)} = \pdf{\frac1{x/2}=\frac2x}{0<y<\frac{x}2}$$
+Note: We usually think of $f_{Y|x}$ as a function of $y$, for fixed $x$. Therefore, the distribution of $Y$ given that $X=x$ is $Unif(0,x/2)$, for a fixed $x$, $0<x<2$.\\\\
+The conditional expectation is :
+$$E(Y|X=x) = \pdf{\int_0^{x/2} y \left(\frac2x\right) dy}{0<x<2} = \pdf{\left.y^2\left(\frac{1}{x}\right)\right\lvert_0^{x/2}}{0<x<2} = \pdf{\frac{x}{4}}{0<x<2}$$
+
+Finally, we set $g(x) = x/4$ and obtain:
+$$E(Y|X) = \frac{X}4$$.
+Note that mathematically, there is a \emph{very big difference} between $E(Y|X=x)$ and $E(Y|X)$. The former is a number for fixed $x$, or a function for variable $x$, and the latter is a random variable.
+\end{example}
+
+\end{document}

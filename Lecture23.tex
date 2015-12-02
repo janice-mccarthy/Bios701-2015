@@ -1,0 +1,139 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+\usepackage{scrextend}
+\makeatletter
+\newcommand{\infi}{\int_{-\infty}^\infty}
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+\date{}
+\title{Introduction to Probability Theory - Lecture 23}
+%----------------------------------------------------------------------------------------
+\newcommand{\pdf}[2]{\left\{\begin{matrix}
+{#1} & {#2}\\\\\\0&\textrm{otherwise}
+\end{matrix}\right.}
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+%\pgfplotsset{compat=1.12}
+\begin{document}
+\maketitle
+
+\section{Transformations - Continued}
+\subsection{Review of Polar Coordinates}
+A very common change of coordinates is a change from 'Cartesian' coordinates (just the usual coordinates with horizontal and vertical axes at right angles to one another) to 'polar' coordinates, or coordinates that label a point in the plane using the angle $\theta$ from a fixed axis and the distance $r$ from the origin.\\\\
+
+\begin{tikzpicture}
+  \begin{axis}[ 
+    xlabel=$x$,
+    ylabel={$y$},
+    xmin=0,ymin=0,xmax=2,ymax=2,
+%    scaled ticks=false,
+    xticklabel=\empty,yticklabel=\empty
+  ] 
+ \draw[dashed] (0,0) to (1cm,2cm) node[left=0.5cm,below=0.25cm]{$r$};
+ \draw[fill] (1cm,2cm) circle[radius=0.5mm] node [above] {$(x,y)$};
+ \draw[dashed] (1cm,0) to (1cm,2cm) node[below=1.8cm,left=0.38cm] {$\theta$};
+ 
+ \end{axis}
+\end{tikzpicture} 
+
+Directly from the diagram, we can see that:
+
+$$x=r\cos(\theta)\;\;\;\;\; y=r\sin(\theta) \;\;\;\;\; r = \sqrt{x^2+y^2}$$
+
+Now, suppose we wish to compute the following definite integral:
+
+$$\int_A f(x,y) dx dy$$
+
+but it is more convenient to change variables to polar coordinates for the computation. We need to compute the Jacobian determinant of the transformation:
+
+$$\begin{matrix}
+\frac{\partial x}{\partial r} = \cos(\theta) & \frac{\partial x}{\partial \theta} = -r\sin(\theta)\\\\\frac{\partial y}{\partial r} = \sin(\theta) & \frac{\partial y}{\partial \theta} = r\cos(\theta)
+\end{matrix}$$
+
+Then 
+$$\mathcal{J} = \left|\begin{matrix}
+\cos(\theta) & -r\sin(\theta)\\\\ \sin(\theta) & r\cos(\theta)
+\end{matrix}\right| = r\cos^2(\theta) + r\sin^2(\theta) = r$$
+
+Thus, the integral transforms as:
+
+$$\int_A f(x,y) dx dy = \int_{T(A)} f(r,\theta) r dr d\theta$$
+
+Now, there is just one more thing that must be addressed: what is the domain $T(A)$? What we need to do is transform the region $A$ into polar coordinates. This is best explained via example. Suppose we wish to integrate $f$ over a region $A=$ a disk about the origin of radius $5$. To describe such a region in polar coordinates, we must let $0\leq\theta\leq 2\pi$ and $0<r\leq5$. \\\\
+\begin{tikzpicture}
+  \begin{axis}[ 
+    xlabel=$x$,
+    ylabel=$y$,
+    xmin= -7,ymin= -7,xmax=7,ymax=7
+    %   xticklabel=\empty,yticklabel=\empty
+  ] 
+
+ \draw (axis cs:0,0) circle(2cm) ;
+ \draw[dashed] (axis cs:0cm,0cm) -- (axis cs:5cm,0cm);
+ \draw[dashed] (axis cs:0cm,0cm) -- (axis cs:1cm,2cm);
+ \node[draw=black,shape=circle] at (axis cs:.5cm,.5cm) {$\theta$};
+ \end{axis}
+
+% \node[ {$\theta$}] at axis cs:(1cm,1cm); 
+\end{tikzpicture} 
+
+
+Often, in probability, we integrate over the entire plane $-\infty<x<\infty$ and $-\infty<y<\infty$.  In polar coordinates, this corresponds to letting $0<r<\infty$ and $0\leq \theta\leq 2\pi$. 
+
+\textcolor{red}{Note: these plots need to be edited. I've spent FAR too much time on them, so I am leaving them for now.}\\\\
+\subsection{Another Example of 2D Change of Variables}
+\begin{example}
+Let $X_1$, $X_2$ be exponential random variables with parameter $\lambda = 1$.
+$$f_X(x_1,x_2) = \pdf{e^{-(x_1+x_2)}}{x_1>0, x_2>0}$$
+Define:
+$$Y_1 = X_1$$
+$$Y_2 = X_1 + X_2$$
+so that:
+$$x_1 = y_1 \textrm{ and } x_2 = y_2 - y_1$$
+and
+$$\mathcal{J} = \left|\begin{matrix}
+1&0\\\\-1,1
+\end{matrix}\right| = 1$$
+The joint pdf of $Y_1,Y_2$ is 
+$$f_Y(y_1,y_2) = f_x(y_1,y_2 - y_1) (1) = \pdf{e^{-y_2}}{0<y_1<y_2<\infty}$$
+where the limits on $y_1$ and $y_2$ are obtained via
+$$x_1> 0 \iff y_1>0$$
+and 
+$$x_2>0\iff y_2-y_1>0\iff y_2>y_1$$
+\end{example}
+\subsection{Convolutions}
+*** TO BE COMPLETED ***
+\end{document}
