@@ -1,0 +1,141 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+\usepackage{scrextend}
+\makeatletter
+\newcommand{\infi}{\int_{-\infty}^\infty}
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+\date{}
+\title{Introduction to Probability Theory - Lecture 27}
+%----------------------------------------------------------------------------------------
+\newcommand{\pdf}[2]{\left\{\begin{matrix}
+{#1} & {#2}\\\\\\0&\textrm{otherwise}
+\end{matrix}\right.}
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+%\pgfplotsset{compat=1.12}
+\begin{document}
+\maketitle
+
+\section{Law of Large Numbers and The Central Limit Theorem}
+We now come full-circle back to the very beginning of the course! Recall that there are two very important probability theorems that are fundamental to the science of statistics: The Law of Large Numbers and the Central Limit Theorem. We will once again state these formally, discuss their meaning and even prove a version of the CLT, this time with a much better understanding of the theory behind these important results.\\\\
+This lecture is not meant to exhaustively cover the LLN and CLT - that will happen next semester in 704. Consider the following to be a segue into that course.
+
+\subsection{Law of Large Numbers}
+There are actually several theorems that fall under the general category of LLN: The strong LLN, weak LLN, Borel LLN and uniform LLN. We will cover the first two, but note that the others are closely related.\\\\
+The weak and strong laws can be stated (not quite completely!) as follows:\\\\
+Let $X_1,...,X_n$ be iid random variables with mean $\mu<\infty$ and variance $\sigma^2<\infty$ and define:
+$$\overline{X}_n = \frac{X_1+...+X_n}{n}$$
+Then 
+$$\overline{X}_n\rightarrow \mu \;\;\;\;\;\; \textrm{ as } \;\;\; n\rightarrow\infty$$
+
+Now, what does 'not quite completely mean'? Well, we have to say \emph{in what sense} does $$\overline{X}_n\rightarrow \mu$$ \\\\
+Here, we must recall some calculus: recall that a sequence of functions $f_n$ converges                                  
+ \emph{pointwise} to a function $f \iff $ $f_n(x) \rightarrow f(x)$ for each fixed $x$ in the domain of $f$. In other words, for a fixed number $x$, the sequence $f_n(x)$ is a sequence of \emph{numbers} and that sequence converges to the \emph{number} $f(x)$. So, pointwise convergence means that this happens at \emph{every} $x$.\\\\
+Now, random variables are functions (they are special functions that also come with probability distributions - but for this kind of convergence, we are only concerned with $X_i$ as functions on the sample space), so we can certainly consider $\overline{X}_n\rightarrow\mu$ \emph{pointwise}.\\\\
+The Strong Law of Large Numbers says that this convergence happens with probability 1. I.e.:
+$$P(\lim_{n\rightarrow\infty} \overline{X}_n \rightarrow\mu) = 1$$.
+This type of convergence is also called 'almost sure' convergence and may be written:
+$$\overline{X}_n \xrightarrow{a.s.} \mu$$
+
+To understand the statement of probability, recall that $f_n(x)\rightarrow f(x)$ at the point $x$ means that for every $\epsilon>0$, we can find $N$ large enough so that if $n>N$, $|f_n(x) - f(x)|<\epsilon$. In terms of random variables, this means that for every $\epsilon>0$, we can find $N$ so that if $n>N$,
+$$|\overline{X}_n -\mu|<\epsilon$$.
+
+When the strong law applies, this happens with probability 1. This means that for every $\epsilon>0$, we can find $N$ large enough so that if $n>N$,
+$$P(|\overline{X}_n - \mu| < \epsilon) = 1$$
+
+Now, there are \emph{several} other ways we can think of $\overline{X}_n$ converging to $\mu$. One of them is the following: 
+$$\lim_{n\rightarrow\infty} P(|\overline{X}_n - \mu| > \epsilon|) = 0$$.
+This is called "convergence in probability" and is written:
+$$\overline{X}_n \xrightarrow{p} \mu$$
+This is a weaker condition than almost sure convergence, so the theorem that guarantees this kind of convergence is called the Weak Law of Large Numbers. The Strong Law implies the Weak Law (but not vice-versa!).\\\\
+Now, this is  \emph{a lot} of detail, and you'll be seeing it next semester, so for now, we'll state the theorem in weak form, prove it, and describe what it means in practical terms.\\\\
+\begin{thm}{Weak Law of Large Numbers}
+Let $X_1,...,X_n$ be iid random variables with mean $\mu<\infty$ and variance $\sigma^2<\infty$ and define:
+$$\overline{X}_n = \frac{X_1+...+X_n}{n}$$
+Then for all $\epsilon>0$,
+$$P(|\overline{X}_n  - \mu|>\epsilon)\rightarrow 0 \;\;\;\; \textrm{ as } \;\;\; n\rightarrow\infty$$
+\end{thm}
+\begin{proof}
+Fix $\epsilon>0$. By Chebyshev's inequality, 
+$$P(|\overline{X}_n -\mu|>\epsilon) \leq \frac{\sigma^2}{n\epsilon^2}$$
+and take the limit as $n\rightarrow\infty$.
+\end{proof}
+What does the LLN tell us? The two versions stated here tell us that the sample means converge to the population mean as the sample size $n$ increases. This is extremely powerful, in that we have not specified any other properties of the distribution the $X_i$ are sampled from. No matter what the population distribution is - so long as its mean and variance are finite, we are guaranteed convergence. It is this theorem that we use each time we collect a finite sample from a population and compute the sample mean to use as an estimator of the population mean.\\\\
+Now estimators, such as the sample mean, are also \emph{random variables}. (It should be apparent that $\overline{X}_n$ is a random variable - it is a sum of the random variables $X_i$ times the constant $1/n$.) Therefore, estimators have distributions - a very important fact in statistical inference! The next theorem describes how the sample means or (equivalently under a location transformation) deviations of the sample mean from the true mean.
+
+\subsection{The Central Limit Theorem}
+Before we proceed to the statement of the CLT, we need to introduce yet another type of convergence for random variables: convergence in distribution.\\\\
+As we have learned, a random variable $X$ is a function from the sample space to the real numbers - but it also comes along with a \emph{distribution} in the form of the CDF or the pdf. Now, suppose we have a sequence of random variables, $Y_1,...,Y_n$. We can consider the corresponding sequence of CDFs, $F_1,...,F_n$ where each $F_i$ is the CDF of $Y_i$. Then, if
+$$F_n\rightarrow F$$
+pointwise, we say that $Y_n\rightarrow F$ \emph{in distribution} and we write:
+$$Y_n\xrightarrow{d} F$$
+Note that it is not the random variables that are converging, rather it is the distribution functions.\\\\
+\begin{thm}{Central Limit Theorem}
+Let $X_1,...,X_n$ be iid random variables with mean $\mu<\infty$ and variance $\sigma^2<\infty$ and define:
+$$\overline{X}_n = \frac{X_1+...+X_n}{n}$$
+Then 
+$$\sqrt{n}\left(\frac{\overline{X}_n-\mu}{\sigma}\right)\xrightarrow{d} N(0,1)$$
+\end{thm}
+\begin{proof}
+We will prove a version of the CLT for which the MGFs of the $X_i$ must exist. This is an unnecessary requirement, but the proof is more complicated without this assumption.\\\\
+So - assume the MGF of the $X_i$ exists. Define:
+$$S_i = \frac{X_i-\mu}{\sigma}$$
+and
+$$\overline{S}_n = \frac{\overline{X}_n-\mu}{\sigma}$$
+These are just location-scale transformations so that we are dealing with random variables that have mean $0$ and variance $1$. We need to show that $\sqrt{n}S_n\xrightarrow{d} N(0,1)$. We know that the moment generating function of a distribution is unique. That is, if two random variables have the same MGF, then they have the same distribution. Therefore, we will show that the MGF of the $\overline{S}_n$ converge to the MGF of the standard normal. Let $M(t)$ be the MGF of the $S_i$.
+$$M(t) = E(e^{tS_i})$$
+Note that $M(0)=1,M'(0)=0,M''(0) =1.$ By the properties of the MGF:
+$$M_{\frac{1}{\sqrt{n}}\left(S_1+...+S_n\right)}(t) = M_{S_1}\left(\frac{t}{\sqrt{n}}\right)...M_{S_n}\left(\frac{t}{\sqrt{n}}\right) = \left(M\left(\frac{t}{\sqrt{n}}\right)\right)^n$$ 
+Now, we'd like to take the limit as $n$ goes to infinity, but that yields the indeterminant form $1^\infty$. To deal with this, we take the log, then take the limit, then exponentiate:
+$$\lim_{n\rightarrow\infty} \log\left(M\left(\frac{t}{\sqrt{n}}\right)^n\right) = n\log\left(M\left(\frac{t}{\sqrt{n}}\right)\right)$$
+Define
+$$y=\frac{1}{\sqrt{n}}$$
+Then
+$$\lim_{n\rightarrow\infty}n\log\left(M\left(\frac{t}{\sqrt{n}}\right)\right) = \lim_{y\rightarrow 0} \frac{\log(M(yt))}{y^2}$$
+which yields the indeterminant form $\frac{0}{0}$. By L'opital's rule:
+$$ \lim_{y\rightarrow 0} \frac{\log(M(yt))}{y^2} =  \lim_{y\rightarrow 0} \frac{t(M'(yt))}{2y M(yt)}$$
+This is once again a $\frac{0}{0}$ indeterminant form, so:
+$$\lim_{y\rightarrow 0} \frac{t(M'(yt))}{2y M(yt)} = \frac{t^2}{2}\lim_{y\rightarrow 0}M''(yt) = \frac{t^2}{2}$$
+Now we exponentiate to obtain:
+$$\left(M\left(\frac{t}{\sqrt{n}}\right)\right)^n\rightarrow e^{\frac{t^2}{2}} \;\;\;\;\textrm{ as }\;\;\;\; n\rightarrow \infty$$
+\end{proof}
+We have shown that deviations of the sample mean from the true mean are normally distributed. In the theorem, we scaled by the variance so that the \emph{scaled} deviations are standard normal. Without the scaling - the deviations from the mean are $N(0,\sigma^2)$. This is a truly amazing result, because just as with the law of large numbers, the CLT makes no assumptions about the distribution of the variables other than the mean and variance are finite. In fact, the iid requirement can be relaxed to allow for non-identical or non-independent variables (the limiting distributions are slightly different - but still profound). An important consequence of the CLT is that it allows us to make statistical inference on the sample mean, for many different distributions.  
+
+The following sections will be updated later. This concludes the material students are responsible for on the final exam.
+\subsection{Counter-Example - Cauchy}
+\subsection{$\chi^2$ and Student t Distributions}
+\end{document}

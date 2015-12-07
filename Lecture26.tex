@@ -1,0 +1,105 @@
+
+\documentclass[12pt]{article} % Use A4 paper with a 12pt font size - different paper sizes will require manual recalculation of page margins and border positions
+
+% Generated with LaTeXDraw 2.0.8
+% Mon Jun 17 19:00:40 EDT 2013
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry} % Adjust page margins
+\usepackage{amsmath} % Required for equation customization
+\usepackage{amssymb} % Required to include mathematical symbols
+\usepackage{xcolor} % Required to specify colors by name
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{shapes,backgrounds,trees}
+\usepackage{wasysym}
+\usepackage{scrextend}
+\makeatletter
+\newcommand{\infi}{\int_{-\infty}^\infty}
+\newcommand{\mytag}[2]{%
+  \text{#1}%
+  \@bsphack
+  \protected@write\@auxout{}%
+         {\string\newlabel{#2}{{#1}{\thepage}}}%
+  \@esphack
+}
+\makeatother
+
+\setlength{\parindent}{0cm} % Remove paragraph indentation
+\newcommand{\tab}{\hspace*{2em}} % Defines a new command for some horizontal space
+%\newcommand{\choose}[2]{\left(\begin{matrix}
+%{#1}\\{#2}
+%\end{matrix}\right)}
+\date{}
+\title{Introduction to Probability Theory - Lecture 25}
+%----------------------------------------------------------------------------------------
+\newcommand{\pdf}[2]{\left\{\begin{matrix}
+{#1} & {#2}\\\\\\0&\textrm{otherwise}
+\end{matrix}\right.}
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{prop}{Proposition}
+\newtheorem{exer}{Exercises}
+\newtheorem{thm}{Therorem}
+%\pgfplotsset{compat=1.12}
+\begin{document}
+\maketitle
+
+\section{Properties of Conditional Expectation}
+Note: in the following, I will often write $E(Y|x)$. This is shorthand for $E(Y|X=x)$.  Some important properties of conditional expectation:\\
+\begin{enumerate}
+\item The expectation of $E(Y|X)$ is $E(Y)$. To see this, note:
+$$E(E(Y|X)) = \infi E(Y|x) f_X(x) dx$$
+This is because $E(Y|x)$ is a function of $x$, and LOTUS applies. Thus, we integrate the function against the marginal $f_X$. Now,
+$$ \infi E(Y|x) f_X(x) dx = \infi \infi y \underbrace{f_{Y|x}(y) f(x)}_{\textrm{joint pdf}} dx dy = \infi y \underbrace{\infi f(x,y) dx}_{\textrm{marginal of } y} dy$$
+
+$$ = \infi y f_Y(y) dy = E(Y)$$
+
+\item If $X$ and $Y$ are independent random variables, then $E(Y|X) = E(Y)$ and $E(X|Y) = E(X)$.
+
+\item If $X$ and $Y$ are jointly distributed random variables and $g(x)$ is a function, then
+$$E\left(g(x) Y  |x\right] = g(x)E(Y|x)$$
+This is because the expectation is with respect to $Y$, and $x$ is a constant. The book calls this 'taking out what is known'.
+
+\item Linearity:
+
+$$E(Y_1+Y_2|X) = E(Y_1|X) +E(Y_2|X)$$
+
+\end{enumerate}
+
+\section{Conditional Variance}
+Just as we can define the conditional expectation, we can define conditional variance:
+$$Var(Y|X=x) = E\left[\left(Y-E(Y|x)\right)^2|x\right]$$
+
+i.e., the conditional variance is the average squared deviation from the conditional expectation (conditioned on $x$). Just as with the conditional expectation, we can consider the conditional variance of $Y$ on $X=x$ as a function of $x$, and then define the random variable $Var(Y|X)$. \\\\
+Aside: Conditional expectation can be interpreted as the 'predicted value' of the outcome $Y$. In other words, given a response variable $Y$ and corresponding predictors $X$, and a set of observations $\left\{(x_i,y_i)\right\}_{i=1}^n$, we can model
+
+$$y_i = E(Y|X = x_i) + \epsilon$$ 
+
+where $\epsilon \sim N(0,1)$. The (sample) conditional variance is then the average squared deviation of the observations from the predicted value.
+
+End of Aside\\\\
+
+Note that just as in the case of (unconditional) variance, we can use the linearity of the conditional expectation to write:
+
+$$Var(Y|X) = E(Y^2|X) - \left(E(Y|X)\right)^2$$
+
+There is a very important theorem involving conditional variance:
+
+\begin{thm}
+$$\underbrace{Var(Y)}_{\textrm{total variation in }Y} = \underbrace{E_X(Var(Y|X))}_{\textrm{conditional variance}} + \underbrace{Var_X(E(Y|X))}_{\textrm{variance of the conditional expectation}}$$
+\end{thm}
+
+We won't prove this theorem, but it is worthwhile to discuss its meaning a bit. Suppose we conduct an experiment to test the relation between some outcome $Y$ and some variable condition $X$. The theorem tells us that our observed variation in $Y$ comes from two distinct sources: the variance in the predicted value (the second term on the right) and the average variation of $Y$ given $X$ (the first term on the right). The former is sometimes called the 'explained variance' (the variance we are looking for in conducting the experiment) and the 'unexplained variance' (variance that comes from outside sources that are unaccounted for).\\\\
+\begin{example}
+Suppose we conduct an experiment to measure gene expression under two different conditions (don't worry about how we measure this for now). Let $Y$ be the measured gene expression in each sample, and let $X$ be the treatment (for simplicity, say $X$ has two possible values). We are interested in the variation of $E(Y|X)$. But we only see $Var(Y)$.\\\\
+One way to deal with this is to \emph{replicate} the experiment. So, we conduct several independent experiments under each condition and measure the 'within sample' variance. Now we have an estimate of $E_X(Var(X|Y))$.
+\end{example} 
+
+This concludes our coverage of Chapter 9!
+\end{document}

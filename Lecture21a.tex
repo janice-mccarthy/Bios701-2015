@@ -129,7 +129,18 @@ For any two random variables $X$ and $Y$,
 $$-1\leq corr(X,Y)\leq 1$$
 \end{thm}
 This theorem is proved in the text. We will not repeat it here.\\\\
-
+The following is an illustration of correlation.
+\begin{example}
+Let $X$ and $Y$ be jointly distributed random variables, whose joint distribution is $Unif(C)$, where
+$$ C = \left\{(x,y)|0\leq x\leq 10,x-1<y<x+1\right\}$$
+The pdf is:
+$$f(x,y) = \pdf{{\frac{1}{20}}}{(x,y)\in C}$$
+For practice, let's compute the marginal pdfs:
+$$f_X(x) = \infi f(x,y) dy = \int_{x-1}^{x+1} \frac1{20} dy = \left. \frac{y}{20}\right\rvert_{x-1}^{x+1} = \frac{x+1-(x-1)}{20} = \frac2{20}=\frac1{10}$$
+I.e. $X$ is marginally uniform on $(0,10)$. Now,
+$$f_Y(y) = $$
+$$corr(X,Y) = $$
+\end{example}
 \section{Multivariate Normal Distribution}
 Usually, the MVN is defined via its pdf. The book uses an alternative (equivalent) definition:
 \begin{defn}
@@ -146,12 +157,9 @@ Note: Each $X_1,...,X_k$ is marginally normal - BUT - it is entirely possible fo
 \section{Bivariate Normal}
 \begin{defn}
 A random vector $X=(X_1,X_2) \sim BVN(\mu_x,\mu_y,\sigma_x^2\sigma_y^2\rho) \iff$ its pdf has the form:
-\begin{multline*}
-f_{XY}(x,y) = \frac{
-1}{2\pi\sigma_x\sigma_x\sqrt{1-\rho^2}} \cdot \\ 
-\exp\left(\frac{-1}{2(1-\rho^2)}\left(\left(\frac{x-\mu_x}{\sigma_x}\right)^2+\left(\frac{y-\mu_y}{\sigma_y}\right)^2 -2\rho \left(\frac{x-\mu_x}{\sigma_x}\right) \left(\frac{y-\mu_y}{\sigma_y}\right)\right)\right)
-\end{multline*}
-for all $(x,y) \in \mathbb{R}^2$ and where $-1\leq \rho\leq 1$ is $corr(x,y)$.
+$$f_{XY}(x,y) = \frac{
+1}{2\pi\sqrt{1-\rho^2}} \exp\left(\frac{-1}{2(1-\rho^2)}\left(x^2+y^2 -2\rho x y\right)\right)\;\;\;\; \textrm{ for } \;\; (x,y) \in \mathbb{R}^2$$
+where $-1\leq \rho\leq 1$ is $corr(x,y)$.
 \end{defn}
 We present an important property of the BVN, but note that it also extends to the MVN:
 \begin{thm}
@@ -159,13 +167,9 @@ If $\bf{X}=(X,Y)\sim BVN$ and $corr(x,y)=0$, then $X$ and $Y$ are independent.
 \end{thm}
 This is a special case where uncorrelated \emph{does} imply independence!
 \begin{proof}
-We prove the theorem for a $X,Y$ standard BVN, but note that it easily extends to the general BVN.\\\\
-
-If $X,Y$ are standard BVN, then  
+If $X,Y$ are BVN, then  
 $$f_{XY}(x,y) =  \frac{
-1}{2\pi\sqrt{1-\rho^2}}
-\exp\left(\frac{-1}{2(1-\rho^2)}\left(x^2+y^2 -2\rho x y\right)\right)$$
-
+1}{2\pi\sqrt{1-\rho^2}} \exp\left(\frac{-1}{2(1-\rho^2)}\left(x^2+y^2 -2\rho x y\right)\right)$$
 For $\rho=0:$
 $$f_{XY}(x,y) =  \frac{
 1}{2\pi} \exp\left(\frac{-1}{2}\left(x^2+y^2\right)\right) = \frac{1}{\sqrt{2\pi}}\exp\left(\frac{-x^2}{2}\right)\frac{1}{\sqrt{2\pi}}\exp\left(\frac{-y^2}{2}\right) = f_X(x)f_Y(y)$$
