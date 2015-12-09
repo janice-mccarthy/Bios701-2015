@@ -36,7 +36,7 @@
 %{#1}\\{#2}
 %\end{matrix}\right)}
 \date{}
-\title{Introduction to Probability Theory - Lecture 25}
+\title{Introduction to Probability Theory - Lecture 26}
 %----------------------------------------------------------------------------------------
 \newcommand{\pdf}[2]{\left\{\begin{matrix}
 {#1} & {#2}\\\\\\0&\textrm{otherwise}
@@ -50,56 +50,99 @@
 \begin{document}
 \maketitle
 
-\section{Properties of Conditional Expectation}
-Note: in the following, I will often write $E(Y|x)$. This is shorthand for $E(Y|X=x)$.  Some important properties of conditional expectation:\\
-\begin{enumerate}
-\item The expectation of $E(Y|X)$ is $E(Y)$. To see this, note:
-$$E(E(Y|X)) = \infi E(Y|x) f_X(x) dx$$
-This is because $E(Y|x)$ is a function of $x$, and LOTUS applies. Thus, we integrate the function against the marginal $f_X$. Now,
-$$ \infi E(Y|x) f_X(x) dx = \infi \infi y \underbrace{f_{Y|x}(y) f(x)}_{\textrm{joint pdf}} dx dy = \infi y \underbrace{\infi f(x,y) dx}_{\textrm{marginal of } y} dy$$
+\section{Inequalities and Bounds on Probability}
+Often it is desirable to put bounds on the probability of a particular event. We will cover three different inequality theorems: Markov, Chebyshev and Chernoff (named for those who first proved them). 
 
-$$ = \infi y f_Y(y) dy = E(Y)$$
-
-\item If $X$ and $Y$ are independent random variables, then $E(Y|X) = E(Y)$ and $E(X|Y) = E(X)$.
-
-\item If $X$ and $Y$ are jointly distributed random variables and $g(x)$ is a function, then
-$$E\left(g(x) Y  |x\right] = g(x)E(Y|x)$$
-This is because the expectation is with respect to $Y$, and $x$ is a constant. The book calls this 'taking out what is known'.
-
-\item Linearity:
-
-$$E(Y_1+Y_2|X) = E(Y_1|X) +E(Y_2|X)$$
-
-\end{enumerate}
-
-\section{Conditional Variance}
-Just as we can define the conditional expectation, we can define conditional variance:
-$$Var(Y|X=x) = E\left[\left(Y-E(Y|x)\right)^2|x\right]$$
-
-i.e., the conditional variance is the average squared deviation from the conditional expectation (conditioned on $x$). Just as with the conditional expectation, we can consider the conditional variance of $Y$ on $X=x$ as a function of $x$, and then define the random variable $Var(Y|X)$. \\\\
-Aside: Conditional expectation can be interpreted as the 'predicted value' of the outcome $Y$. In other words, given a response variable $Y$ and corresponding predictors $X$, and a set of observations $\left\{(x_i,y_i)\right\}_{i=1}^n$, we can model
-
-$$y_i = E(Y|X = x_i) + \epsilon$$ 
-
-where $\epsilon \sim N(0,1)$. The (sample) conditional variance is then the average squared deviation of the observations from the predicted value.
-
-End of Aside\\\\
-
-Note that just as in the case of (unconditional) variance, we can use the linearity of the conditional expectation to write:
-
-$$Var(Y|X) = E(Y^2|X) - \left(E(Y|X)\right)^2$$
-
-There is a very important theorem involving conditional variance:
+\subsection{Markov's Inequality}
 
 \begin{thm}
-$$\underbrace{Var(Y)}_{\textrm{total variation in }Y} = \underbrace{E_X(Var(Y|X))}_{\textrm{conditional variance}} + \underbrace{Var_X(E(Y|X))}_{\textrm{variance of the conditional expectation}}$$
+For any random variable $X$ and constant $a>0$
+$$P(|X|\geq a) \leq \frac{E(|X|)}{a}$$
 \end{thm}
+\begin{proof}
+Let $Y=\frac{|X|}{a}$. Then
+$$P(|X|\geq a) \leq \frac{E(|X|)}{a} \iff P(Y\geq 1) \leq E(Y)$$
+so it suffices to show $P(Y\geq 1) \leq E(Y)$. Recall that the indicator variable $I$ is defined so that $I(x)=1$ if $x$ is true and zero otherwise. Note that
+$$I(Y\leq 1)\leq Y$$
+To see this, note that if $Y<1$, then $I(Y\geq 1) = 0$, and because $Y$ is defined to be $|X|/a$, we know $Y$ is postive, so it must then be greater than  or equal to $I(Y\geq 1)$. On the other hand, if $I(Y\geq 1) = 1$, the indicator variable telss us that $Y\geq 1 = I(Y\geq 1)$.
+Now, taking expectations across the inequality:
+$$E(I(Y\leq 1))\leq E(Y)$$ 
+But:
+$$E(I(Y\leq 1)) = I(0)P(I=0)+ I(1)P(I=1) = 0 + P(I=1) = P(Y\geq 1)$$
+So 
+$$E(I(Y\leq 1))\leq E(Y) \Rightarrow P(Y\geq 1) \leq E(Y)$$ 
+\end{proof}
+Now, in and of itself, this theorem isn't terribly useful. It bounds probability using expected value, and expected value can be \emph{very} large (even infinite). We already know $P\leq1$, so this really isn't informative. BUT - it is useful in proving some other results! So, on to Chebyshev!
 
-We won't prove this theorem, but it is worthwhile to discuss its meaning a bit. Suppose we conduct an experiment to test the relation between some outcome $Y$ and some variable condition $X$. The theorem tells us that our observed variation in $Y$ comes from two distinct sources: the variance in the predicted value (the second term on the right) and the average variation of $Y$ given $X$ (the first term on the right). The former is sometimes called the 'explained variance' (the variance we are looking for in conducting the experiment) and the 'unexplained variance' (variance that comes from outside sources that are unaccounted for).\\\\
+\subsection{Chebyshev's Inequality}
+\begin{thm}
+Let $X$ be a random variable with mean $\mu$ and variance $\sigma^2$. Then for any $a>0$
+$$P((X-\mu)^2\geq a)\leq \frac{\sigma^2}{a^2}$$
+\end{thm}
+\begin{proof}
+Note:
+$$P(|X-\mu|\geq a) = P((X-\mu)^2\geq a^2)$$
+By Markov's inequality,
+$$P((X-\mu)^2\geq a^2) \leq \frac{E((X-\mu)^2)}{a^2}$$
+and 
+$$E((X-\mu)^2) = \sigma^2$$
+by definition, so
+$$P((X-\mu)^2\geq a^2) \leq \frac{\sigma^2}{a^2}$$
+\end{proof}
+We can set $a=c\sigma$ for some $c>0$. This yields a slightly different form of Chebyshev:
+$$P(|X-\mu| \geq c\sigma)\leq \frac1{c^2}$$
+In other words, we can put bounds on the probability a random variable takes values that are more than $c$ standard deviations from the mean. This is important enough to warrant an example:\\\\
 \begin{example}
-Suppose we conduct an experiment to measure gene expression under two different conditions (don't worry about how we measure this for now). Let $Y$ be the measured gene expression in each sample, and let $X$ be the treatment (for simplicity, say $X$ has two possible values). We are interested in the variation of $E(Y|X)$. But we only see $Var(Y)$.\\\\
-One way to deal with this is to \emph{replicate} the experiment. So, we conduct several independent experiments under each condition and measure the 'within sample' variance. Now we have an estimate of $E_X(Var(X|Y))$.
-\end{example} 
+Let $X$ be a random variable with mean $\mu$ and variance $\sigma^2$. What is the probability that $X$ takes values that are more than 2 standard deviations from its mean?\\\\
+By Chebyshev:
+$$P(|X-\mu|\geq 2\sigma) \leq \frac14$$.
+This means that the probability that $X$ takes values that are further than 2 standard deviations from the mean is $25\%$. Now, that's a better bound than Markov, but we know that for the normal distribution $P(|X-\mu|>2\sigma) = 0.05$. Chebyshev gives us \emph{an} upper bound, but it may not be close to the best.
+\end{example}
+The next inequality theorem gives us a slightly better bound.
 
-This concludes our coverage of Chapter 9!
+\subsection{Chernoff's Inequality}
+\begin{thm}
+For any random variable $X$ and constants $a>0,t>0$
+$$P(X>a)\leq \frac{E(e^{tx})}{e^{ta}}$$
+\end{thm}
+\begin{proof}
+Because $e^{tx}$ is a 1-1, increasing function, we can write:
+$$P(X>a) = P(e^{tx} \geq e^{ta})$$
+By Markov:
+$$ P(e^{tx} \geq e^{ta}) \leq \frac{E(e^{tx})}{e^{ta}}$$
+\end{proof}
+The numerator on the right hand side of the inequality is the MGF of $X$. Therefore, if the MGF exists, we can minimize the right hand side (i.e. find the value of $t$ that minimizes the bound). We will see this in the following example:\\\\
+\begin{example}
+Let $Z\sim N(0,1)$ We will compute the Markov, Chebyshev and Chernoff bounds on $P(|Z|>3)$. First, we'll need $E(|Z|)$\\\\
+
+$$E(|Z|) =\frac1{\sqrt{2\pi}} \infi |z|e^{-\frac{z^2}{2}} dz$$
+The integrand is even, so:
+$$\frac1{\sqrt{2\pi}} \infi |z|e^{-\frac{z^2}{2}} dz = \frac2{\sqrt{2\pi}} \int_0^\infty ze^{-\frac{z^2}{2}} dz$$
+We make the substitutions $u=z^2/2$, $du=zdz$:
+$$\frac2{\sqrt{2\pi}} \int_0^\infty ze^{-\frac{z^2}{2}} dz = \frac2{\sqrt{2\pi}} \int_0^\infty e^{-u} du = \left. \frac2{\sqrt{2\pi}} -e^{-u}\right\rvert_0^\infty =\sqrt{\frac{2}{\pi}} $$
+
+Markov: \\
+$$P(|Z|>3) \leq \frac{E(|Z|)}{3}= \frac{1}{3}\sqrt{\frac{2}{\pi}} \approx 0.27$$
+
+Chebyshev: \\
+$$P(|Z|>3) \leq \frac19 \approx 0.11$$
+
+Chernoff: \\
+
+Because the standard normal is symmetric about $0$, 
+$$P(|Z|>3) = 2P(Z>3)$$
+and Chernoff yields:
+$$2P(Z>3) \leq \frac{2e^{\frac{t^2}2}}{e^{3t}} \;\;\;\;\; t>0$$
+To get the tightest bound, we minimize the right hand side. This is a problem that is more easily worked after taking the log - so we use the fact that log is strictly increasing, which means if the minimum of some function $g(t)$ occurs at $t_0$, min of $\log(g(t)$ also occurs at $t_0$ and vice-versa.
+
+$$\log\left(\frac{2e^{\frac{t^2}2}}{e^{3t}}\right) = \log(2) + \log(e^{\frac{t^2}{2}}) + \log(e^{-3t})$$
+$$ = \log(2) + \frac{t^2}{2}\log(e) - 3t\log(e)$$
+$$ = \log(2) + \frac{t^2}{2} -3t$$
+Now we differentiate:
+$$\frac{d}{dt}\left(\log(2) + \frac{t^2}{2} -3t\right)$$
+$$= t-3$$
+Setting this equal to zero, we find our minimum at $t=3$. Thus, the best bound is:
+$$2e^{\frac92}e^{-9} = 2e^{-\frac92} \approx 0.022$$
+This gives us the best bound so far, but it is quite a lot larger than $0.003$!
+\end{example}
 \end{document}
