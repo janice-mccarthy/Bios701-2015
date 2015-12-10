@@ -135,7 +135,64 @@ $$\left(M\left(\frac{t}{\sqrt{n}}\right)\right)^n\rightarrow e^{\frac{t^2}{2}} \
 \end{proof}
 We have shown that deviations of the sample mean from the true mean are normally distributed. In the theorem, we scaled by the variance so that the \emph{scaled} deviations are standard normal. Without the scaling - the deviations from the mean are $N(0,\sigma^2)$. This is a truly amazing result, because just as with the law of large numbers, the CLT makes no assumptions about the distribution of the variables other than the mean and variance are finite. In fact, the iid requirement can be relaxed to allow for non-identical or non-independent variables (the limiting distributions are slightly different - but still profound). An important consequence of the CLT is that it allows us to make statistical inference on the sample mean, for many different distributions.  
 
-The following sections will be updated later. This concludes the material students are responsible for on the final exam.
 \subsection{Counter-Example - Cauchy}
+As just stated, the CLT only requires finite mean and variance. There is a very famous distribution that does not meet the requirements: The Cauchy distribution. The pdf is
+$$f(x) = \frac{1}{\pi(x^2+1)} \;\;\;\;\;\textrm{ for } \;\;\;-\infty<x<\infty$$
+It looks harmless enough, but its mean is infinite and so is its variance. (The LLN also does not apply to Cauchy - there is no mean to converge to!) \\\\
+Rather than sample means being normally distributed, the sample means of $n$ Cauchy random variables is also Cauchy, no matter how large $n$ gets. Where does such a strange creature come from? If $X,Y$ are iid $N(0,1)$ - then $T=X/Y$ is Cauchy. So, its origin is not so obscure - it is a distribution that can be encountered! You may recall a homework assignment that asked you to show that if $T$ is Cauchy, then $1/T$ is also. This is another 'strange' behavioral property of the Cauchy.\\\\
+To wrap things up, we'll discuss two more common distributions that arise as combinations and transformations of random variables with other known distributions.\\\\
+
 \subsection{$\chi^2$ and Student t Distributions}
+\begin{defn}
+Let $V = Z_i^2+...+ Z_n^2$, with $Z_i$'s iid $N(0,1)$. Then $V$ is said to have the $\chi^2$ distribution with $n$ degrees of freedom. $V\sim\chi_n^2$.
+\end{defn}
+So, a sum of squares of independent standard normals is defined to be something called a $\chi^2$ random variable. What is the pdf?\\\\
+
+\begin{thm}
+The $\chi_n^2$ distribution is $Gamma(n/2,1/2)$.
+\end{thm}
+\begin{proof}
+First, let's confirm this is true for $Z_1^2$. The CDF of $Z_1^2$ is
+$$F(x) = P(X_1^2\leq x)$$
+$$=P(-\sqrt{x}\leq Z_1\leq \sqrt{x}) = \Phi(\sqrt{x}) - \Phi(-\sqrt{x})$$
+$$=2\Phi(\sqrt{x}) - 1$$
+Now, differentiating:
+$$f(x) = \frac{d}{dx}F(x) = \frac{d}{dx}\left(2\Phi(\sqrt{x}) - 1\right)$$
+$$= 2\Phi'(\sqrt{x})\frac{1}{2\sqrt{x}} = 2\varphi(\sqrt{x})\frac{21}{\sqrt{x}}$$
+$$=  \frac{1}{\sqrt{2\pi x}}e^{-\frac{x}{2}}$$
+Which is the pdf for the $Gamma(1/2,1/2)$ distribution. Now, we can apply a previous result: The sum of $n$ independent $Gamma(1/2,1/2)$ variables is $Gamma(n/2,1/2)$, so 
+$$V= Z_1^2+...+Z_n^2 \sim Gamma(n/2,1/2)$$
+\end{proof}
+
+Why is this an important distribution? Well, besides being the distribution of a sum of squares of standard normals, which arises frequently, $\chi^2$ turns out to be the distribution of the sample variance from a normal distribution:
+
+\begin{thm}
+Let $X_1,...,X_n$ be iid $N(\mu,\sigma^2$ and let $\overline{X}_n$ be the sample mean.
+$$S_n^2 = \frac{1}{n-1} \sum_{j=1}^n \left(X_j - \overline{X}_n\right)^2$$
+Then 
+$$\frac{\left(n-1\right)S_n^2}{\sigma^2}\sim \chi^2_{n-1}$$
+\end{thm}
+\begin{proof}
+First we will show this for the standard normal, and just use a location-scale transformation to extend to the general normal. Note that:
+$$\sum_{j=1}^n Z_j^2 = \sum_{j=1}^n \left(Z_j-\overline{Z}_n\right)^2 + n\overline{Z}_n^2$$
+
+and the random variables in the two terms on the right are independent of one another. \\\\
+We will take the MGF on both sides. We know that $\sum_{j=1}^n Z_j^2 \sim \chi_n^2$ and $n\overline{Z}_n^2 \sim \chi_1^2$ (because $\sqrt{n} \overline{Z}_n \sim N(0,1)$ by the CLT.)
+Thus:
+$$\left(frac{1}{1-2t}\right)^{n/2} = MGF\left(\sum_{j=1}^n \left(Z_j-\overline{Z}_j\right)^2\right) \left(\frac{1}{1-2t}\right)^{1/2}$$
+Solving algebraically:
+$$= MGF\left(\sum_{j=1}^n \left(Z_j-\overline{Z}_j\right)^2\right) = \left(\frac{1}{1-2t}\right)^{\frac{n-1}{2}}$$
+which is the MGF of a random varible with the $\chi^2_{n-1}$ distribution.\\\\
+For the general case, 
+$$X_j= \mu +\sigma Z_j\;\;\;\;\;\;\ \textrm{ and } \;\;\;\;\;\; \overline{X}_n = \mu + \sigma \overline{Z}_n$$
+and
+$$\sum_{j=1}^n\left(X_j-\overline{X}_n\right)^2 = \sum_{j=1}^n \left(\mu+\sigma Z_j-(\mu+\sigma\overline{Z}_n)\right)^2 = \sigma^2]sum_{j=1}^n(Z_j-\overline{Z}_n)^2$$
+Thus,
+$$\frac{(n-1)S_n^2}{\sigma^2} = \frac1{\sigma^2}\sum_{j=1}^n\left(X_j-\overline{X}_n\right)^2 = \frac{1}{\sigma^2}\sigma^2\sum_{j=1}^n \left(Z_j-\overline{Z}_j\right)^2 \sim \chi^2_{n-1}$$
+\end{proof}
+\subsection{Student t Distribution}
+Another important distribution results from a transformation of independent $N(0,1)$ and $\chi^2_n$ random variables. \\\\
+Define:
+$$T = \frac{Z}{\sqrt{V/n}}$$
+where $Z\sim N(0,1)$ and $V\sim \chi^2_n$ are independent. Then $T\sim t_n$ is called a \emph{student t distribution with n degrees of freedom}. $t$ tests are frequently used for inference such as the test for equal means. The pdf is in terms of $\Gamma$ functions, and we won't write it here. The distribution is symmetric, and as $n\rightarrow\infty$ $t_n\rightarrow N(0,1)$. The $t$ distributions have 'heavier tails' than the normal - in fact, $t_1$ is Cauchy!
 \end{document}
